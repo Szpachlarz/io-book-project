@@ -7,7 +7,19 @@
 <hr class="divider mt-0">
 
 <div class="container" style="max-width:960px;">
+    <form method="post" asp-controller="Admin">
+        <div class="row mb-0">
+           <div class="col-6 col-sm-12">
+               <div class="form-floating">
+                   <input type="text" class="form-control" id="AddCategory">
+                   <label>Nazwa kategorii</label>
+               </div>
+                <span class="mx-2 mt-1 errorTextColor"></span>
+            </div>
+        </div>
+        <div class="row p-2 mt-3">
+            <button class="btn btn-lg btn-primary w-100" name="couponSubmit" type="submit">Dodaj</button>
+        </div>
 
-    <form method="post" autocomplete="off" asp-controller="Admin" asp-action="AddCategory">
     </form>
 </div>
