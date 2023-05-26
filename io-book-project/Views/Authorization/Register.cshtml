@@ -1,4 +1,48 @@
 ﻿@{
     ViewData["Title"] = "Rejestracja";
 }
-<p>test rejestracji</p>
+
+<div class="container margin-hide-menu-top mb-1">
+    <div class="row d-flex justify-content-center ">
+        <div class="col-12 col-lg-6 mb-5">
+            <div class="card px-5 py-5 h-100">
+                <form method="post" asp-controller="Auth" asp-action="Register">
+                    <div class="form-data" id="registerFields">
+                        <label class="mainName2">Rejestracja</label>
+
+                        <div class="forms-inputs mb-4">
+                            <label id="username">Login</label>
+                            <input type="text">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+
+                        <div class="forms-inputs mb-4">
+                            <label id="email">Email</label>
+                            <input type="email">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+
+                        <div class="forms-inputs mb-4">
+                            <label id="password">Hasło</label>
+                            <input type="password">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+
+                        <div class="forms-inputs mb-4">
+                            <label id="passwordRepeat">Powtórz hasło</label>
+                            <input type="password">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <button class="btn-color-one w-100" name="registerSubmit" type="submit">Rejestracja</button>
+                        </div>
+                        <div>
+                            <a class="btn btn-color-two w-100" asp-action="Login" asp-controller="Authorization">Powrót do logowania</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

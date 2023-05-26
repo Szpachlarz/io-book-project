@@ -7,19 +7,28 @@
 <hr class="divider mt-0">
 
 <div class="container" style="max-width:960px;">
-    <form method="post" asp-controller="Admin">
-        <div class="row mb-0">
-           <div class="col-6 col-sm-12">
-               <div class="form-floating">
-                   <input type="text" class="form-control" id="AddCategory">
-                   <label>Nazwa kategorii</label>
-               </div>
-                <span class="mx-2 mt-1 errorTextColor"></span>
+
+    <form method="post" autocomplete="off" asp-controller="Admin" asp-action="AddAuthor">
+    </form>
+</div>
+
+<div class="row m-2">
+    <div class="col-12 ">
+        <div class="row m-2">
+            <div class="col-12">
+                <div class="forms-inputs">
+                    <div class="form-floating">
+                        <input type="text" class="form-control" id="CategoryName" autocomplete="off" placeholder="a">
+                        <label for="CategoryName">Nazwa</label>
+                    </div>
+                    <span class="mx-2 mt-1 errorTextColor"></span>
+                </div>
             </div>
         </div>
-        <div class="row p-2 mt-3">
-            <button class="btn btn-lg btn-primary w-100" name="couponSubmit" type="submit">Dodaj</button>
+        <div class="row m-2">
+            <div class="float-end">
+                <button type="submit" class="btn btn-primary btn-lg float-end" name="senduser">Dodaj</button>
+            </div>
         </div>
-
-    </form>
+    </div>
 </div>

@@ -1,4 +1,35 @@
 ﻿@{
     ViewData["Title"] = "Logowanie";
 }
-<p>test logowanie</p>
+<div class="container margin-hide-menu-top mb-1">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 col-md-6 mb-5">
+            <div class="card px-5 py-5 h-100">
+                <form method="post" asp-action="Login">
+                    <div class="form-data mt-3">
+                        <label class="mainName2">Logowanie</label>
+                        <div class="forms-inputs mb-4">
+                            <label id="username">Login</label>
+                            <input type="text">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+
+                        <div class="forms-inputs mb-4">
+                            <label id="password">Hasło</label>
+                            <input type="password">
+                            <span class="mx-2 mt-1 errorTextColor"></span>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <button class="btn-color-one w-100" name="loginSubmit" type="submit">Zaloguj</button>
+                    </div>
+                    <div class="mb-3">
+                        <a class="btn btn-color-two w-100" asp-action="Register" asp-controller="Authorization">Rejestracja</a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
