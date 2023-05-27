@@ -1,4 +1,61 @@
 ﻿@{
     ViewData["Title"] = "Rejestracja";
 }
-<p>test rejestracji</p>
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
+
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <input type="text" id="name" class="form-control" />
+                                <label class="form-label" for="name">Imię</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <input type="text" id="lastname" class="form-control" />
+                                <label class="form-label" for="lastname">Nazwisko</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input type="email" id="mail" class="form-control" />
+                        <label class="form-label" for="mail">Email</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <input type="password" id="pass1" class="form-control" />
+                        <label class="form-label" for="pass1">Hasło</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="password" id="pass2" class="form-control" />
+                        <label class="form-label" for="pass2">Powtórz hasło</label>
+                    </div>
+
+                    <div class="form-check d-flex justify-content-center mb-4">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="accepted" />
+                        <label class="form-check-label" for="accepted">
+                            Zapoznałem się z <a href="#">regulaminem seriwsu</a> i go akceptuję.
+                        </label>
+                    </div>
+
+                    <center><button type="submit" class="btn btn-primary btn-lg btn-block">UTWÓRZ NOWE KONTO</button></center>
+
+                    <div class="mb-3">
+                        <a class="btn btn-color-two w-100" asp-action="Login" asp-controller="Authorization">Masz już konto? Zaloguj się!</a>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h3>Dlaczego warto do nas dołączyć?</h3>
+                <p>Bo jest darmowe.</p>
+                <p>Potrzeba więcej powodów?</p>
+                <p>Jest też duża baza książek i rzetelne recenzje</p>
+            </div>
+        </div>
+    </div>
+</section>
