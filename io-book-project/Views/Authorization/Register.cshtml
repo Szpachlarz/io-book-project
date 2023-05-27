@@ -1,48 +1,62 @@
-﻿﻿@{
+﻿@{
     ViewData["Title"] = "Rejestracja";
 }
+<section class="vh-100">
+    <div class="container py-5 h-100">
+        <div class="row d-flex align-items-center justify-content-center h-100">
 
-<div class="container margin-hide-menu-top mb-1">
-    <div class="row d-flex justify-content-center ">
-        <div class="col-12 col-lg-6 mb-5">
-            <div class="card px-5 py-5 h-100">
-                <form method="post" asp-controller="Auth" asp-action="Register">
-                    <div class="form-data" id="registerFields">
-                        <label class="mainName2">Rejestracja</label>
+            <div class="col-md-7 col-lg-5 col-xl-5 offset-xl-1">
+                <form>
+                    <div class="row">
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <input type="text" id="name" class="form-control" />
+                                <label class="form-label" for="name">Imię</label>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="form-outline">
+                                <input type="text" id="lastname" class="form-control" />
+                                <label class="form-label" for="lastname">Nazwisko</label>
+                            </div>
+                        </div>
+                    </div>
 
-                        <div class="forms-inputs mb-4">
-                            <label id="username">Login</label>
-                            <input type="text">
-                            <span class="mx-2 mt-1 errorTextColor"></span>
-                        </div>
+                    <div class="form-outline mb-4">
+                        <input type="email" id="mail" class="form-control" />
+                        <label class="form-label" for="mail">Email</label>
+                    </div>
 
-                        <div class="forms-inputs mb-4">
-                            <label id="email">Email</label>
-                            <input type="email">
-                            <span class="mx-2 mt-1 errorTextColor"></span>
-                        </div>
+                    <div class="form-outline mb-4">
+                        <input type="password" id="pass1" class="form-control" />
+                        <label class="form-label" for="pass1">Hasło</label>
+                    </div>
+                    <div class="form-outline mb-4">
+                        <input type="password" id="pass2" class="form-control" />
+                        <label class="form-label" for="pass2">Powtórz hasło</label>
+                    </div>
 
-                        <div class="forms-inputs mb-4">
-                            <label id="password">Hasło</label>
-                            <input type="password">
-                            <span class="mx-2 mt-1 errorTextColor"></span>
-                        </div>
+                    <div class="form-check d-flex justify-content-center mb-4">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="accepted" />
+                        <label class="form-check-label" for="accepted">
+                            Zapoznałem się z <a href="#">regulaminem seriwsu</a> i go akceptuję.
+                        </label>
+                    </div>
 
-                        <div class="forms-inputs mb-4">
-                            <label id="passwordRepeat">Powtórz   hasło</label>
-                            <input type="password">
-                            <span class="mx-2 mt-1 errorTextColor"></span>
-                        </div>
+                    <center><button type="submit" class="btn btn-primary btn-lg btn-block">UTWÓRZ NOWE KONTO</button></center>
 
-                        <div class="mb-3">
-                            <button class="btn-color-one w-100" name="registerSubmit" type="submit">Rejestracja</button>
-                        </div>
-                        <div>
-                            <a class="btn btn-color-two w-100" asp-action="Login" asp-controller="Authorization">Powrót do logowania</a>
-                        </div>
+                    <div class="mb-3">
+                        <a class="btn btn-color-two w-100" asp-action="Login" asp-controller="Authorization">Masz już konto? Zaloguj się!</a>
                     </div>
                 </form>
             </div>
+            <div class="col-md-8 col-lg-7 col-xl-6">
+                <h3>Dlaczego warto do nas dołączyć?</h3>
+                <p>Bo jest darmowe.</p>
+                <p>Potrzeba więcej powodów?</p>
+                <p>Jest też duża baza książek i rzetelne recenzje</p>
+            </div>
         </div>
     </div>
-</div>
+</section>
+
