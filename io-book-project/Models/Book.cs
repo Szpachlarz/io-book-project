@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace io_book_project.Models
 {
@@ -22,6 +23,7 @@ namespace io_book_project.Models
         public string CoverImagePath { get; set; }
 
         //Publisher
+        [ForeignKey("Publisher")]
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
