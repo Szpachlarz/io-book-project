@@ -3,54 +3,24 @@
     ViewData["Title"] = "Home Page";
 }
 
-    <div class="text-center">
-        <h1 class="display-4">Welcome</h1>
-        <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">jak poprawnie książka</a>.</p>
-        <p> Kebab Mega Rollo </p>
-        <p>wegański kebab </p>
-    </div>
-
-    <section class="jumbotron text-center">
-        <div class="container">
-            <h1 class="jumbotron-heading">Album example</h1>
-            <p class="lead text-muted"> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
-            <p>
-                <a href="#" class="btn btn-primary my-2">Main call action</a>
-                <a href="#" class="btn btn-secondary my-2">Secondary</a>
-            </p>
-        </div>
-</section>
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="row">
-
-
-        @foreach (var item in Model)
-        {
-        <div class="col-md-4">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
                         <a asp-area="" asp-controller="Home" asp-action="BooksPage" asp-route-id="@item.Id">
                             <img class="card-img-top" src="@item.CoverImagePath" />
                         </a>
-                <div class="card-body">
-                    <p class="card-text">@item.Title</p>
-                    <center>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Zjedz</button>
-                        <button type="button" class="btn btn-sm btn-outline-secondary">Zamów</button>
+                        <div class="card-body">
+                            <a asp-area="" asp-controller="Home" asp-action="BooksPage" asp-route-id="@item.Id">
+                                <p class="card-text">@item.Title</p>
+                            </a>
+                        </div>
                     </div>
-                    <small class="text-muted">kekab </small>
-                    </center>
-
                 </div>
-
-            </div>
-        </div>
-        }
-
-        
-
-
+            }
         </div>
     </div>
 </div>
