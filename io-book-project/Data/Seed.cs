@@ -82,7 +82,7 @@ namespace io_book_project.Data
                             Description = "Wyjątkowy atlas grzybów jadalnych i trujących",
                             CreatedAt = DateTime.Now,
                             UpdatedAt = DateTime.Now,
-                            CoverImagePath = "https://cdn.discordapp.com/attachments/808020274691833907/1100042803389665360/20230424_140702.jpg",
+                            CoverImagePath = "https://www.swiatksiazki.pl/media/catalog/product/cache/eaf55611dc9c3a2fa4224fad2468d647/8/8/8899906773988.jpg",
                             PublisherId = 1,
                         },
                     });
