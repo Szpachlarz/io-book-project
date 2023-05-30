@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
+using io_book_project.Utils;
 
 namespace io_book_project.Controllers
 {
@@ -6,6 +8,10 @@ namespace io_book_project.Controllers
     {
         public IActionResult Index()
         {
+            if(HttpContext.Session.GetString(Const.USER_ROLE)!="admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 

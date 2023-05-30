@@ -18,7 +18,7 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
        .AddCookie();
-
+builder.Services.AddSession(options => options.IdleTimeout = TimeSpan.FromMinutes(120));
 var app = builder.Build();
 
 if(args.Length == 1 && args[0].ToLower() == "seeddata")
@@ -37,7 +37,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseSession();
 app.UseRouting();
 
 app.UseAuthorization();

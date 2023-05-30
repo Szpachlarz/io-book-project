@@ -20,7 +20,7 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Login">Wyloguj</a>
+                            <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Logout">Wyloguj</a>
                         </li>
                     </ul>
                 </div>
@@ -42,10 +42,10 @@
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="BookList" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista książek</span></a>
+                                    <a asp-action="BookList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista książek</span></a>
                                 </li>
                                 <li>
-                                    <a href="AddBook" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj książkę</span></a>
+                                    <a asp-action="AddBook" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj książkę</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -55,10 +55,10 @@
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="AuthorList" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista autorów</span></a>
+                                    <a asp-action="AuthorList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista autorów</span></a>
                                 </li>
                                 <li>
-                                    <a href="AddAuthor" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj autora</span></a>
+                                    <a asp-action="AddAuthor" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj autora</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -68,10 +68,10 @@
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="PublishingHouseList" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista wydawnictw</span></a>
+                                    <a asp-action="PublishingHouseList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista wydawnictw</span></a>
                                 </li>
                                 <li>
-                                    <a href="AddPublishingHouse" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj wydawnictwo</span></a>
+                                    <a asp-action="PublishingHouseList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj wydawnictwo</span></a>
                                 </li>
                             </ul>
                         </li>
@@ -81,10 +81,10 @@
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
                                 <li class="w-100">
-                                    <a href="CategoryList" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista kategorii</span></a>
+                                    <a asp-action="CategoryList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista kategorii</span></a>
                                 </li>
                                 <li>
-                                    <a href="AddCategory" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj kategorię</span></a>
+                                    <a asp-action="CategoryList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj kategorię</span></a>
                                 </li>
                             </ul>
                         </li>

@@ -1,8 +1,10 @@
 ﻿using io_book_project.Data;
 using io_book_project.Models;
 using io_book_project.ViewModels;
+using io_book_project.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace io_book_project.Controllers
 {
@@ -40,6 +42,8 @@ namespace io_book_project.Controllers
                     if (result.Succeeded)
                     {
                         var role = await _userManager.GetRolesAsync(user);
+                        HttpContext.Session.SetString(Utils.Const.LOGGED_USER, user.UserName);
+                        HttpContext.Session.SetString(Utils.Const.USER_ROLE, role[0]);
                         if (role[0]=="admin")
                         {
                             return RedirectToAction("Index", "Admin");                            
@@ -55,6 +59,12 @@ namespace io_book_project.Controllers
             }
             TempData["Error"] = "Błędne dane logowania";
             return View(loginViewModel);
+        }
+
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Home");
         }
 
         public IActionResult Register()
