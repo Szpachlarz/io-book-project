@@ -1,8 +1,8 @@
-﻿namespace io_book_project.Data.Enum
+﻿namespace io_book_project.Data
 {
-    public enum Role
+    public static class Role
     {
-        user = 0,
-        admin = 1
+        public const string Admin = "admin";
+        public const string User = "user";
     }
 }

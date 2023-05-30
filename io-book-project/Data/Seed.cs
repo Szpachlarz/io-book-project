@@ -15,34 +15,7 @@ namespace io_book_project.Data
                 var context = serviceScope.ServiceProvider.GetService<AppDbContext>();
 
                 context.Database.EnsureCreated();
-
-                if (!context.Users.Any())
-                {
-                    context.Users.AddRange(new List<User>()
-                    {
-                        new User()
-                        {
-                            Username = "Admin",
-                            Password = "87654321",
-                            Email = "admin@mail.com",
-                            Role = Role.admin,
-                            Status = Status.active,
-                            CreatedAt = DateTime.Now,
-                            UpdatedAt = DateTime.Now,
-                         },
-                        new User()
-                        {
-                            Username = "User",
-                            Password = "87654321",
-                            Email = "user@mail.com",
-                            Role = Role.user,
-                            Status = Status.active,
-                            CreatedAt = DateTime.Now,
-                            UpdatedAt = DateTime.Now,
-                        }
-                    });
-                    context.SaveChanges();
-                }
+                
                 if (!context.Authors.Any())
                 {
                     context.Authors.AddRange(new List<Author>()
@@ -147,62 +120,52 @@ namespace io_book_project.Data
             }
         }
 
-        /*public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
+        public static async Task SeedUsersAndRolesAsync(IApplicationBuilder applicationBuilder)
         {
             using (var serviceScope = applicationBuilder.ApplicationServices.CreateScope())
             {
                 //Roles
                 var roleManager = serviceScope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
 
-                if (!await roleManager.RoleExistsAsync(UserRoles.Admin))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.Admin));
-                if (!await roleManager.RoleExistsAsync(UserRoles.User))
-                    await roleManager.CreateAsync(new IdentityRole(UserRoles.User));
+                if (!await roleManager.RoleExistsAsync(Role.Admin))
+                    await roleManager.CreateAsync(new IdentityRole(Role.Admin));
+                if (!await roleManager.RoleExistsAsync(Role.User))
+                    await roleManager.CreateAsync(new IdentityRole(Role.User));
 
                 //Users
-                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
-                string adminUserEmail = "teddysmithdeveloper@gmail.com";
+                var userManager = serviceScope.ServiceProvider.GetRequiredService<UserManager<User>>();
+                string adminUserEmail = "admin@mail.com";
 
                 var adminUser = await userManager.FindByEmailAsync(adminUserEmail);
                 if (adminUser == null)
                 {
-                    var newAdminUser = new AppUser()
+                    var newAdminUser = new User()
                     {
-                        UserName = "teddysmithdev",
+                        UserName = "administrator",
                         Email = adminUserEmail,
                         EmailConfirmed = true,
-                        Address = new Address()
-                        {
-                            Street = "123 Main St",
-                            City = "Charlotte",
-                            State = "NC"
-                        }
+                        Status = 0,
                     };
-                    await userManager.CreateAsync(newAdminUser, "Coding@1234?");
-                    await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
+                    await userManager.CreateAsync(newAdminUser, "Haslo@123");
+                    await userManager.AddToRoleAsync(newAdminUser, Role.Admin);
                 }
 
-                string appUserEmail = "user@etickets.com";
+                string appUserEmail = "user@mail.com";
 
                 var appUser = await userManager.FindByEmailAsync(appUserEmail);
                 if (appUser == null)
                 {
-                    var newAppUser = new AppUser()
+                    var newAppUser = new User()
                     {
-                        UserName = "app-user",
+                        UserName = "uzytkownik",
                         Email = appUserEmail,
                         EmailConfirmed = true,
-                        Address = new Address()
-                        {
-                            Street = "123 Main St",
-                            City = "Charlotte",
-                            State = "NC"
-                        }
+                        Status = 0,
                     };
-                    await userManager.CreateAsync(newAppUser, "Coding@1234?");
-                    await userManager.AddToRoleAsync(newAppUser, UserRoles.User);
+                    await userManager.CreateAsync(newAppUser, "Haslo@456");
+                    await userManager.AddToRoleAsync(newAppUser, Role.User);
                 }
-            }
-        }*/
+            }            
+        }
     }
 }

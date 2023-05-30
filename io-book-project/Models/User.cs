@@ -1,18 +1,12 @@
 ﻿using io_book_project.Data.Enum;
+using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace io_book_project.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        [Key]
-        public int Id { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public Role Role { get; set; }
         public Status Status { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set;}
     }
 }

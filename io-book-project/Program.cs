@@ -1,4 +1,7 @@
 using io_book_project.Data;
+using io_book_project.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,11 +12,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 {
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddIdentity<User, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+       .AddCookie();
 
 var app = builder.Build();
 
 if(args.Length == 1 && args[0].ToLower() == "seeddata")
 {
+    await Seed.SeedUsersAndRolesAsync(app);
     Seed.SeedData(app);
 }
 
