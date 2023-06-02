@@ -5,6 +5,7 @@ using io_book_project.Utils;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Azure.Identity;
 
 namespace io_book_project.Controllers
 {
@@ -69,7 +70,43 @@ namespace io_book_project.Controllers
 
         public IActionResult Register()
         {
-            return View();
+            var response = new RegisterViewModel();
+            return View(response);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (!ModelState.IsValid) return View(registerViewModel);
+
+            var useremail = await _userManager.FindByEmailAsync(registerViewModel.EmailAddress);
+            if (useremail != null)
+            {
+                TempData["Error"] = "Ten adres e-mail już znajduje się w bazie danych";
+                return View(registerViewModel);
+            }
+
+            var username = await _userManager.FindByNameAsync(registerViewModel.Username);
+            if (username != null)
+            {
+                TempData["Error"] = "Ta nazwa użytkownika jest już zajęta";
+                return View(registerViewModel);
+            }
+
+            var newUser = new User()
+            {
+                Email = registerViewModel.EmailAddress,
+                UserName = registerViewModel.Username,
+                Status = 0
+
+            };
+
+            var newUserResponse = await _userManager.CreateAsync(newUser, registerViewModel.Password);
+
+            if (newUserResponse.Succeeded)            
+                await _userManager.AddToRoleAsync(newUser, Role.User);
+
+            return RedirectToAction("Index", "Home");
         }
     }
 }
