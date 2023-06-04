@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using io_book_project.Data;
+using static System.Net.WebRequestMethods;
 
 
 namespace io_book_project.Controllers
@@ -52,10 +53,22 @@ namespace io_book_project.Controllers
                 var book = new Book
                 {
                     Title = model.Title,
+                    OriginalTitle = model.OriginalTitle,
+                    ISBN = model.ISBN,
+                    PublicationYear = model.PublicationYear,
+                    FirstPublicationYear = model.FirstPublicationYear,
+                    Language = model.Language,
+                    OriginalLanguage = model.OriginalLanguage,
+                    Translation = model.Translation,
+                    PageCount = model.PageCount,
+                    Series = model.Series,
+                    Description = model.Description,
+                    //CoverImagePath = "https://upload.wikimedia.org/wikipedia/commons/e/e0/JPEG_example_JPG_RIP_050.jpg",
+                    PublisherId = 1,
                 };
 
-                _context.Books.Add(book);
-                _context.SaveChanges();
+                await _context.Books.AddAsync(book);
+                await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index", "Admin");
             }
