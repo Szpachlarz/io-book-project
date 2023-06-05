@@ -20,7 +20,7 @@ namespace io_book_project.Models
         public string Description { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
-        public string CoverImagePath { get; set; }
+        public string? CoverImagePath { get; set; }
 
         //Publisher
         [ForeignKey("Publisher")]
