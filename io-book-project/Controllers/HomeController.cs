@@ -3,6 +3,7 @@ using io_book_project.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Dynamic;
 
 namespace io_book_project.Controllers
 {
@@ -28,10 +29,27 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        public List<Book> GetBooks()
+        {
+            List<Book> books = new List<Book>();
+            return books;
+        }
+        public List<BookAuthor> GetBookAuthors()
+        {
+            List<BookAuthor> bookAuthors = new List<BookAuthor>();
+            return bookAuthors;
+        }
+
         public IActionResult BooksPage(int id)
         {
-            Book book = _context.Books.Include(a => a.Publisher).FirstOrDefault(x => x.Id == id);
-            return View(book);
+             Book book = _context.Books.Include(a => a.Publisher).FirstOrDefault(x => x.Id == id);
+
+             return View(book);
+
+           // dynamic mymodel = new ExpandoObject();
+           // mymodel.Book = GetBooks().FirstOrDefault(x => x.Id == id);
+           // mymodel.BookAuthor = GetBookAuthors().FirstOrDefault(x => x.Id == id);
+          //  return View(mymodel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

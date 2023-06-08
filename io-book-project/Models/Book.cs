@@ -9,8 +9,10 @@ namespace io_book_project.Models
         public int Id { get; set; }
         public string Title { get; set; }
         public string? OriginalTitle { get; set; }
-        public double ISBN { get; set; }        
+        public double ISBN { get; set; }
+        [DataType(DataType.Date)]
         public DateTime PublicationYear { get; set; }
+        [DataType(DataType.Date)]
         public DateTime? FirstPublicationYear { get; set; }
         public string Language { get; set; }
         public string? OriginalLanguage { get; set; }
@@ -27,5 +29,8 @@ namespace io_book_project.Models
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
+       
     }
+
+    
 }
