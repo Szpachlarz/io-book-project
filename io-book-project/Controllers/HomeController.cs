@@ -1,5 +1,7 @@
 ﻿using io_book_project.Data;
+using io_book_project.Interfaces;
 using io_book_project.Models;
+using io_book_project.Repository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -9,17 +11,17 @@ namespace io_book_project.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly AppDbContext _context;
+        private readonly IBookRepository _bookRepository;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext context)
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, IBookRepository bookRepository)
         {
             _logger = logger;
-            _context = context;
+            _bookRepository = bookRepository;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var books = _context.Books.ToList();
+            IEnumerable<Book> books = await _bookRepository.GetAll();
             return View(books);
         }
 
@@ -28,9 +30,9 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        public IActionResult BooksPage(int id)
+        public async Task <IActionResult> BooksPage(int id)
         {
-            Book book = _context.Books.Include(a => a.Publisher).FirstOrDefault(x => x.Id == id);
+            Book book = await _bookRepository.GetByIdAsync(id);
             return View(book);
         }
 
