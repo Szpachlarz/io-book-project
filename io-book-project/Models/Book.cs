@@ -10,10 +10,12 @@ namespace io_book_project.Models
         public string Title { get; set; }
         public string? OriginalTitle { get; set; }
         public double ISBN { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime PublicationYear { get; set; }
-        [DataType(DataType.Date)]
-        public DateTime? FirstPublicationYear { get; set; }
+
+       // [DisplayFormat(DataFormatString = "{0:yyyy}")]
+        public DateOnly PublicationYear { get; set; }
+
+       // [DataType(DataType.Date)]
+        public DateOnly? FirstPublicationYear { get; set; }
         public string Language { get; set; }
         public string? OriginalLanguage { get; set; }
         public string? Translation { get; set; }

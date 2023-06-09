@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using io_book_project.Data;
 
@@ -10,9 +11,11 @@ using io_book_project.Data;
 namespace io_book_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230608142120_migration2000")]
+    partial class migration2000
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -153,11 +156,11 @@ namespace io_book_project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DateOfBirth")
+                        .HasColumnType("datetime(6)");
 
-                    b.Property<DateOnly?>("DateOfDeath")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("DateOfDeath")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Names")
                         .IsRequired()
@@ -191,8 +194,8 @@ namespace io_book_project.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateOnly?>("FirstPublicationYear")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("FirstPublicationYear")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<double>("ISBN")
                         .HasColumnType("double");
@@ -210,8 +213,8 @@ namespace io_book_project.Migrations
                     b.Property<int>("PageCount")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("PublicationYear")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("PublicationYear")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");

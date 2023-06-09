@@ -25,7 +25,7 @@ namespace io_book_project.Data
                             Names = "Arkadiusz",
                             Surname = "Gront",
                             Nationality = "żydowska",
-                            DateOfBirth = DateTime.Parse("2000-02-26"),
+                            DateOfBirth = DateOnly.Parse("2000-02-26"),
                             DateOfDeath = null,
                         },
                         new Author()
@@ -33,8 +33,8 @@ namespace io_book_project.Data
                             Names = "Rafał",
                             Surname = "Gomola",
                             Nationality = "albańska",
-                            DateOfBirth = DateTime.Parse("2000-11-13"),
-                            DateOfDeath = DateTime.Parse("2023-05-27"),
+                            DateOfBirth = DateOnly.Parse("2000-11-13"),
+                            DateOfDeath = DateOnly.Parse("2023-05-27"),
                         }
                     });
                     context.SaveChanges();
@@ -72,7 +72,7 @@ namespace io_book_project.Data
                             Title = "Atlas grzybów",
                             OriginalTitle = null,
                             ISBN = 1234567890123,
-                            PublicationYear = DateTime.Parse("2022-01-01"),
+                            PublicationYear = DateOnly.Parse("2022-01-01"),
                             FirstPublicationYear = null,
                             Language = "polski",
                             OriginalLanguage = null,

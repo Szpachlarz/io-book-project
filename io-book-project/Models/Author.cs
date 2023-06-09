@@ -7,8 +7,11 @@ namespace io_book_project.Models
         public int Id { get; set; }
         public string Names { get; set; }
         public string? Surname { get; set; }
+
         public string Nationality { get; set; }
-        public DateTime DateOfBirth { get; set; }
-        public DateTime? DateOfDeath { get; set; }
+
+        public DateOnly DateOfBirth { get; set; }
+
+        public DateOnly? DateOfDeath { get; set; }
     }
 }

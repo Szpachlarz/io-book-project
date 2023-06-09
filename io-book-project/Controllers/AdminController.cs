@@ -8,20 +8,22 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 using io_book_project.Data;
 using static System.Net.WebRequestMethods;
-
+using io_book_project.Interfaces;
 
 namespace io_book_project.Controllers
 {
     public class AdminController : Controller
     {
         private readonly AppDbContext _context;
-        public AdminController(AppDbContext context)
+        private readonly IBookRepository _bookRepository;
+        public AdminController(AppDbContext context, IBookRepository bookRepository)
         {
             _context = context;
+            _bookRepository = bookRepository;
         }
         public IActionResult Index()
         {
-            if(HttpContext.Session.GetString(Const.USER_ROLE)!="admin")
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
             {
                 return RedirectToAction("Index", "Home");
             }
@@ -67,8 +69,8 @@ namespace io_book_project.Controllers
                     PublisherId = 1,
                 };
 
-                await _context.Books.AddAsync(book);
-                await _context.SaveChangesAsync();
+                _bookRepository.Add(book);
+                _bookRepository.Save();
 
                 return RedirectToAction("Index", "Admin");
             }
