@@ -7,7 +7,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace io_book_project.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -66,8 +66,8 @@ namespace io_book_project.Migrations
                     Names = table.Column<string>(type: "longtext", nullable: false),
                     Surname = table.Column<string>(type: "longtext", nullable: true),
                     Nationality = table.Column<string>(type: "longtext", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    DateOfDeath = table.Column<DateTime>(type: "datetime(6)", nullable: true)
+                    DateOfBirth = table.Column<DateOnly>(type: "date", nullable: false),
+                    DateOfDeath = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -225,8 +225,8 @@ namespace io_book_project.Migrations
                     Title = table.Column<string>(type: "longtext", nullable: false),
                     OriginalTitle = table.Column<string>(type: "longtext", nullable: true),
                     ISBN = table.Column<double>(type: "double", nullable: false),
-                    PublicationYear = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    FirstPublicationYear = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    PublicationYear = table.Column<DateOnly>(type: "date", nullable: false),
+                    FirstPublicationYear = table.Column<DateOnly>(type: "date", nullable: true),
                     Language = table.Column<string>(type: "longtext", nullable: false),
                     OriginalLanguage = table.Column<string>(type: "longtext", nullable: true),
                     Translation = table.Column<string>(type: "longtext", nullable: true),
@@ -235,7 +235,7 @@ namespace io_book_project.Migrations
                     Description = table.Column<string>(type: "longtext", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    CoverImagePath = table.Column<string>(type: "longtext", nullable: false),
+                    CoverImagePath = table.Column<string>(type: "longtext", nullable: true),
                     PublisherId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

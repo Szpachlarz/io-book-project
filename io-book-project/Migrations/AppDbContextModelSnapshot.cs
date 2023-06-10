@@ -153,11 +153,13 @@ namespace io_book_project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("DateOfBirth")
-                        .HasColumnType("date");
+                    b.Property<string>("DateOfBirth")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<DateOnly?>("DateOfDeath")
-                        .HasColumnType("date");
+                    b.Property<string>("DateOfDeath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Names")
                         .IsRequired()
@@ -191,8 +193,8 @@ namespace io_book_project.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<DateOnly?>("FirstPublicationYear")
-                        .HasColumnType("date");
+                    b.Property<DateTime?>("FirstPublicationYear")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<double>("ISBN")
                         .HasColumnType("double");
@@ -210,8 +212,8 @@ namespace io_book_project.Migrations
                     b.Property<int>("PageCount")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("PublicationYear")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("PublicationYear")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<int>("PublisherId")
                         .HasColumnType("int");

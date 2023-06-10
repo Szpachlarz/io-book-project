@@ -11,8 +11,8 @@ using io_book_project.Data;
 namespace io_book_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20230608161706_migration2001")]
-    partial class migration2001
+    [Migration("20230610115247_migration2")]
+    partial class migration2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -156,11 +156,13 @@ namespace io_book_project.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("DateOfBirth")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("DateOfBirth")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
-                    b.Property<DateTime?>("DateOfDeath")
-                        .HasColumnType("datetime(6)");
+                    b.Property<string>("DateOfDeath")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Names")
                         .IsRequired()

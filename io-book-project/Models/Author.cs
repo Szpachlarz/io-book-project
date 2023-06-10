@@ -10,8 +10,8 @@ namespace io_book_project.Models
 
         public string Nationality { get; set; }
 
-        public DateOnly DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
-        public DateOnly? DateOfDeath { get; set; }
+        public string DateOfDeath { get; set; }
     }
 }
