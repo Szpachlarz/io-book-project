@@ -8,6 +8,10 @@ namespace io_book_project.Repository
     public class PublisherRepository : IPublisherRepository
     {
         private readonly AppDbContext _context;
+        public PublisherRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public bool Add(Publisher publisher)
         {
             _context.Add(publisher);

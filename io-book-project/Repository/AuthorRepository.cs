@@ -8,6 +8,10 @@ namespace io_book_project.Repository
     public class AuthorRepository : IAuthorRepository
     {
         private readonly AppDbContext _context;
+        public AuthorRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public bool Add(Author author)
         {
             _context.Add(author);

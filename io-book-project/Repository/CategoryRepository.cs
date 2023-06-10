@@ -8,6 +8,10 @@ namespace io_book_project.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _context;
+        public CategoryRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public bool Add(Category category)
         {
             _context.Add(category);

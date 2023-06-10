@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using io_book_project.Data;
 using static System.Net.WebRequestMethods;
 using io_book_project.Interfaces;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace io_book_project.Controllers
 {
@@ -16,10 +17,12 @@ namespace io_book_project.Controllers
     {
         private readonly AppDbContext _context;
         private readonly IBookRepository _bookRepository;
-        public AdminController(AppDbContext context, IBookRepository bookRepository)
+        private readonly IPublisherRepository _publisherRepository;
+        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository)
         {
             _context = context;
             _bookRepository = bookRepository;
+            _publisherRepository = publisherRepository;
         }
         public IActionResult Index()
         {
@@ -41,9 +44,15 @@ namespace io_book_project.Controllers
         }
 
         [HttpGet]
-        public IActionResult AddBook()
+        public async Task<IActionResult> AddBook()
         {
             //przekopiować z indexu to zabezpieczenie admina
+
+            var publishers = await _publisherRepository.GetAll();
+
+            // Przekazuj dane do widoku poprzez ViewData lub ViewBag
+            ViewData["Publishers"] = new SelectList((System.Collections.IEnumerable)publishers, "Id", "Name");
+
             return View();
         }
 

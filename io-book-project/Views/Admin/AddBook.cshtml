@@ -44,8 +44,13 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="Publisher" autocomplete="off" placeholder="a">
+                            <input type="text" class="form-control" id="Publisher" list="list-publisher" autocomplete="off" placeholder="a">
                             <label for="Publisher">Wydawnictwo</label>
+                            <select asp-for="PublisherId" asp-items="ViewBag.Publishers">
+                                <!--<option>Wydawnictwo Politechniki Śląskiej</option>
+                                <option>ysysysciufciuf</option>
+                                <option>ysciuf</option>-->
+                            </select>
                         </div>
                         <span class="mx-2 mt-1 errorTextColor"></span>
                     </div>
@@ -158,3 +163,9 @@
         </form>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', e => {
+        $('#Publisher').autocomplete()
+    }, false);
+</script>
