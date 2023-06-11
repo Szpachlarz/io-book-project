@@ -202,34 +202,45 @@
 </div>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+    var authors = @Html.Raw(Json.Serialize(ViewBag.Authors)); // Pobranie danych z ViewBag.Authors
     $(document).ready(function () {
         var i = 1;
-        fillSelectOptions();
+        fillSelectOptions(); 
         $('#add').click(function () {
             if (i <= 6) {
                 i++;
-                $('#add-author').append('<div class="col-10" id="author' + i + '"> <div class="forms-inputs"> <div class="form-floating"> <select asp-for="author[' + (i - 1) + '].AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author' + i + '" list="list-author" data-autocomplete="off" placeholder="a" name="author[' + (i - 1) + '].AuthorId" data-authors="@Html.Raw(Json.Serialize(ViewBag.Authors))"> <option value="" disabled selected hidden>Wybierz autora</option> </select> <label for="author[' + (i - 1) + '].AuthorId">Autor</label> </div> <span class="mx-2 mt-1 errorTextColor"></span> </div> </div><div class="col-2"> <td><button type="button" name="add" id="' + i + '" class="btn btn-danger btn-remove2"><i class="fa fa fa-trash"></i></button></td></div>');
+                // Nie działa
+                $('#add-author').append('<div class="col-10" id="author' + i + '"> <div class="forms-inputs"> <div class="form-floating"> <select asp-for="author[' + (i - 1) + '].AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author' + i + '" list="list-author" data-autocomplete="off" placeholder="a" name="author[' + (i - 1) + '].AuthorId" data-authors="@Html.Raw(Json.Serialize(ViewBag.Authors))"> </select> <label for="author[' + (i - 1) + '].AuthorId">Autor</label> </div> <span class="mx-2 mt-1 errorTextColor"></span> </div> </div><div class="col-2"> <td><button type="button" name="add" id="' + i + '" class="btn btn-danger btn-remove2"><i class="fa fa fa-trash"></i></button></td></div>');
                 
                 // Aktualizacja wartości nowego pola select
                 var newSelect = $('#Author' + i);
-                var authors = @Html.Raw(Json.Serialize(ViewBag.Authors)); // Pobranie danych z ViewBag.Authors
-                fillSelectOptions();            
+                fillSelectOptions();  
+                for (var j = 0; j < authors.length; j++) {
+                    //select.append($('<option></option>').val(authors[j].value).text(authors[j].text));
+                    console.log(authors[j].text);
+                }
             }
         });
+        // Działa
         $(document).on('click', '.btn-remove2', function () {
             var button_id = $(this).attr("id");
             $('#author' + button_id + '').remove();
             $(this).closest('.col-2').remove();
         });
-        // Funkcja do wypełniania pola select opcjami z danych autora
+        // Funkcja do wypełniania pola select opcjami z danych autora, nie działa
         function fillSelectOptions() {
             var selects = $('select[data-authors]');
             selects.each(function () {
-                var select = $(this);
-                var authors = JSON.parse(select.data('authors'));
-                select.empty();
-                for (var j = 0; j < authors.length; j++) {
-                    select.append($('<option></option>').val(authors[j].Id).text(authors[j].Names));
+                var selekt = $(this);
+                var jakasNazwa = $(this).children.length;
+                //var authors = JSON.parse(select.data('authors'));
+                console.log(jakasNazwa);
+                if (jakasNazwa != 0) {
+                    selekt.empty();
+                    selekt.append(`<option selected="true" disabled = "disabled" hidden> Wybierz autora </option>`)
+                    for (var j = 0; j < authors.length; j++) {
+                        selekt.append($('<option></option>').val(authors[j].value).text(authors[j].text));
+                    }
                 }
             });
         }
