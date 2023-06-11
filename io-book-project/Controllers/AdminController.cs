@@ -18,11 +18,15 @@ namespace io_book_project.Controllers
         private readonly AppDbContext _context;
         private readonly IBookRepository _bookRepository;
         private readonly IPublisherRepository _publisherRepository;
-        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository)
+        private readonly IAuthorRepository _authorRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository)
         {
             _context = context;
             _bookRepository = bookRepository;
             _publisherRepository = publisherRepository;
+            _authorRepository = authorRepository;
+            _categoryRepository = categoryRepository;
         }
         public IActionResult Index()
         {
@@ -49,9 +53,14 @@ namespace io_book_project.Controllers
             //przekopiować z indexu to zabezpieczenie admina
 
             var publishers = await _publisherRepository.GetAll();
-
-            // Przekazuj dane do widoku poprzez ViewData lub ViewBag
             ViewData["Publishers"] = new SelectList((System.Collections.IEnumerable)publishers, "Id", "Name");
+
+            var authors = await _authorRepository.GetAll();
+            var authorList = authors.Select(a => new { Id = a.Id, FullName = $"{a.Names} {a.Surname}" }).ToList();
+            ViewData["Authors"] = new SelectList((System.Collections.IEnumerable)authorList, "Id", "FullName");
+            
+            var categories = await _categoryRepository.GetAll();
+            ViewData["Categories"] = new SelectList((System.Collections.IEnumerable)categories, "Id", "Name");
 
             return View();
         }
@@ -74,8 +83,8 @@ namespace io_book_project.Controllers
                     PageCount = model.PageCount,
                     Series = model.Series,
                     Description = model.Description,
-                    //CoverImagePath = "https://upload.wikimedia.org/wikipedia/commons/e/e0/JPEG_example_JPG_RIP_050.jpg",
-                    PublisherId = 1,
+                    CoverImagePath = model.CoverImagePath,
+                    PublisherId = model.PublisherId,
                 };
 
                 _bookRepository.Add(book);

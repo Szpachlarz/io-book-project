@@ -20,11 +20,21 @@ namespace io_book_project.ViewModels
         public int PageCount { get; set; }
         public string? Series { get; set; }
         public string Description { get; set; }
-        //public string CoverImagePath { get; set; }
+        public string CoverImagePath { get; set; }
 
         //Publisher
         [ForeignKey("Publisher")]
         public int PublisherId { get; set; }
-        //public Publisher Publisher { get; set; }
+        public Publisher Publisher { get; set; }
+
+        //Author
+        [ForeignKey("Author")]
+        public int AuthorId { get; set; }
+        public Author Author { get; set; }
+
+        //Category
+        [ForeignKey("Category")]
+        public int CategoryId { get; set; }
+        public Category Category { get; set; }
     }
 }

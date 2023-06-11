@@ -40,21 +40,34 @@
                     </div>
                 </div>
             </div>
-            <div class="row m-2">
-                <div class="col-12">
+            <div class="row m-2" id="add-author">
+                <div class="col-10">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <input type="text" class="form-control" id="Publisher" list="list-publisher" autocomplete="off" placeholder="a">
-                            <label for="Publisher">Wydawnictwo</label>
-                            <select asp-for="PublisherId" asp-items="ViewBag.Publishers">
-                                <!--<option>Wydawnictwo Politechniki Śląskiej</option>
-                                <option>ysysysciufciuf</option>
-                                <option>ysciuf</option>-->
+                            <select asp-for="AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author" list="list-author" autocomplete="off" placeholder="a" name="author[]">
+                                <option value="" disabled selected hidden>Wybierz autora</option>
                             </select>
+                            <label for="AuthorId">Autor</label>
                         </div>
                         <span class="mx-2 mt-1 errorTextColor"></span>
                     </div>
                 </div>
+                <div class="col-2">
+                    <td><button type="button" name="add" id="add" class="btn btn-success"><i class="fa fa-plus"></i></button></td>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="forms-inputs">
+                        <div class="form-floating">
+                            <select asp-for="PublisherId" asp-items="ViewBag.Publishers" class="form-control" id="Publisher" list="list-publisher" autocomplete="off" placeholder="a">
+                                <option value="" disabled selected hidden>Wybierz wydawnictwo</option>
+                            </select>
+                            <label for="PublisherId">Wydawnictwo</label>
+                        </div>
+                        <span class="mx-2 mt-1 errorTextColor"></span>
+                    </div>
+                </div>                
             </div>
             <div class="row m-2">
                 <div class="col-12">
@@ -148,8 +161,32 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating ">
+                            <input type="text" asp-for="CoverImagePath" class="form-control" id="CoverImage" autocomplete="off" placeholder="a">
+                            <label for="CoverImagePath">Okładka</label>
+                        </div>
+                        <span class="mx-2 mt-1 errorTextColor"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="forms-inputs">
+                        <div class="form-floating ">
                             <input type="text" asp-for="Description" class="form-control" id="Description" autocomplete="off" placeholder="a">
                             <label for="Description">Opis</label>
+                        </div>
+                        <span class="mx-2 mt-1 errorTextColor"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="forms-inputs">
+                        <div class="form-floating">
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control" id="Category" list="list-category" autocomplete="off" placeholder="a">
+                                <option value="" disabled selected hidden>Wybierz kategorię</option>
+                            </select>
+                            <label for="AuthorId">Kategoria</label>
                         </div>
                         <span class="mx-2 mt-1 errorTextColor"></span>
                     </div>
@@ -163,9 +200,38 @@
         </form>
     </div>
 </div>
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', e => {
-        $('#Publisher').autocomplete()
-    }, false);
+    $(document).ready(function () {
+        var i = 1;
+        fillSelectOptions();
+        $('#add').click(function () {
+            if (i <= 6) {
+                i++;
+                $('#add-author').append('<div class="col-10" id="author' + i + '"> <div class="forms-inputs"> <div class="form-floating"> <select asp-for="author[' + (i - 1) + '].AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author' + i + '" list="list-author" data-autocomplete="off" placeholder="a" name="author[' + (i - 1) + '].AuthorId" data-authors="@Html.Raw(Json.Serialize(ViewBag.Authors))"> <option value="" disabled selected hidden>Wybierz autora</option> </select> <label for="author[' + (i - 1) + '].AuthorId">Autor</label> </div> <span class="mx-2 mt-1 errorTextColor"></span> </div> </div><div class="col-2"> <td><button type="button" name="add" id="' + i + '" class="btn btn-danger btn-remove2"><i class="fa fa fa-trash"></i></button></td></div>');
+                
+                // Aktualizacja wartości nowego pola select
+                var newSelect = $('#Author' + i);
+                var authors = @Html.Raw(Json.Serialize(ViewBag.Authors)); // Pobranie danych z ViewBag.Authors
+                fillSelectOptions();            
+            }
+        });
+        $(document).on('click', '.btn-remove2', function () {
+            var button_id = $(this).attr("id");
+            $('#author' + button_id + '').remove();
+            $(this).closest('.col-2').remove();
+        });
+        // Funkcja do wypełniania pola select opcjami z danych autora
+        function fillSelectOptions() {
+            var selects = $('select[data-authors]');
+            selects.each(function () {
+                var select = $(this);
+                var authors = JSON.parse(select.data('authors'));
+                select.empty();
+                for (var j = 0; j < authors.length; j++) {
+                    select.append($('<option></option>').val(authors[j].Id).text(authors[j].Names));
+                }
+            });
+        }
+    });
 </script>
