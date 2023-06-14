@@ -37,6 +37,18 @@ namespace io_book_project.Controllers
             return View(book);
         }
 
+        public async Task<IActionResult> AuthorsPage(int id)
+        {
+            
+            return View();
+        }
+
+        public async Task<IActionResult> PublishersPage(int id)
+        {
+
+            return View();
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
