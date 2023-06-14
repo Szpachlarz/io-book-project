@@ -42,8 +42,56 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        public IActionResult AuthorList()
+        public async Task<IActionResult> AuthorList()
         {
+            try
+            {
+                var authors = await _authorRepository.GetAll();
+                return View(authors);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> AuthorDetails(int id)
+        {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> AuthorEdit(int id)
+        {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> AuthorDelete(int id)
+        {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
 
@@ -96,8 +144,56 @@ namespace io_book_project.Controllers
             return View("AddBook", model);
         }
 
-        public IActionResult BookList()
+        public async Task<IActionResult> BookList()
         {
+            try
+            {
+                var books = await _bookRepository.GetAll();
+                return View(books);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> BookDetails(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _bookRepository.GetByIdAsync(id);
+            var bookauthor = await _authorRepository.GetByIdAsync(id);
+            return View(book);
+            
+        }
+        public async Task<IActionResult> BookEdit(int id)
+        {
+            try
+            {
+                var book = await _bookRepository.GetByIdAsync(id);
+                return View(book);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> BookDelete(int id)
+        {
+            try
+            {
+                var book = await _bookRepository.GetByIdAsync(id);
+                return View(book);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
 
@@ -116,8 +212,46 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        public IActionResult PublishingHouseList()
+        public async Task<IActionResult> PublishingHouseList()
         {
+            try
+            {
+                var publishers = await _publisherRepository.GetAll();
+                return View(publishers);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> PublishingHouseEdit(int id)
+        {
+            try
+            {
+                var publisher = await _publisherRepository.GetByIdAsync(id);
+                return View(publisher);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> PublishingHouseDelete(int id)
+        {
+            try
+            {
+                var publisher = await _publisherRepository.GetByIdAsync(id);
+                _publisherRepository.Delete(publisher);
+                _publisherRepository.Save();
+                return RedirectToAction("PublishingHouseList", "Admin");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
     }

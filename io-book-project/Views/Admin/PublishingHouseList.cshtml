@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<io_book_project.Models.Publisher>
+@{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
 }
@@ -11,3 +12,58 @@
     <form method="post" autocomplete="off" asp-controller="Admin" asp-action="PublishingHouseList">
     </form>
 </div>
+
+<p>
+    <a asp-action="AddAuthor" class="btn btn-primary"> <i class="fa-solid fa-circle-plus"></i>Dodaj</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Nazwa
+            </th>
+            <th>
+                Kraj
+            </th>
+            <th>
+                Miasti
+            </th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    <form asp-action="PublisherDelete" asp-route-id="@item.Id">
+                        <div class="btn-group btn-group-sm">
+                            <a asp-action="PublisherEdit" asp-route-id="@item.Id" class="btn btn-warning">
+                                <i class="fa-solid fa-pen-to-square"></i>
+                            </a>
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Czy na pewno chcesz usunąć rekord?')">
+                                <i class="far fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

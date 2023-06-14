@@ -7,6 +7,8 @@ namespace io_book_project.Models
         [Key]
         public int Id { get; set; }
         public string Name { get; set; }
+        //Categories
+        public List<BookCategory> BookCategories { get; set; }
 
     }
 }

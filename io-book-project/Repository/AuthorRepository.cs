@@ -2,6 +2,7 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing;
 
 namespace io_book_project.Repository
 {
@@ -32,6 +33,10 @@ namespace io_book_project.Repository
         public async Task<Author?> GetByIdAsync(int id)
         {
             return await _context.Authors.FirstOrDefaultAsync(i => i.Id == id);
+        }
+        public async Task<IEnumerable<Author>> GetAuthorName(int bookId)
+        {
+            return await _context.Authors.Include(i => i.bookId).ToListAsync();
         }
 
         public async Task<int> GetCountAsync()
