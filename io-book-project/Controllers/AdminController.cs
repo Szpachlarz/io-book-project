@@ -143,13 +143,29 @@ namespace io_book_project.Controllers
 
             return View("AddBook", model);
         }
-
+        [HttpGet]
         public async Task<IActionResult> BookList()
         {
             try
             {
                 var books = await _bookRepository.GetAll();
-                return View(books);
+                List<List<Author>> authors = new List<List<Author>>();
+                //int i = 0;
+                foreach (var book in books) 
+                {
+                    int id = book.Id;
+                    var bookAuthors = await _authorRepository.GetAuthorNames(id);
+                    authors.Add((List<Author>)bookAuthors);
+                }
+
+                //ViewBag.Authors = authors;
+                var bookListVM = new BookListViewModel
+                {
+                    Books = books,
+                    Authors = authors,
+
+                };
+                return View(bookListVM);
             }
             catch (Exception)
             {

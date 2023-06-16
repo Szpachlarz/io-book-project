@@ -2,6 +2,7 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using io_book_project.Repository;
+using io_book_project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
@@ -13,11 +14,16 @@ namespace io_book_project.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IBookRepository _bookRepository;
-
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, IBookRepository bookRepository)
+        private readonly IAuthorRepository _authorRepository;
+        private readonly IPublisherRepository _publisherRepository;
+        private readonly ICategoryRepository _categoryRepository;
+        public HomeController(ILogger<HomeController> logger, AppDbContext context, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository)
         {
             _logger = logger;
             _bookRepository = bookRepository;
+            _authorRepository = authorRepository;
+            _publisherRepository = publisherRepository;
+            _categoryRepository = categoryRepository;
         }
 
         public async Task<IActionResult> Index()
@@ -31,10 +37,25 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        public async Task <IActionResult> BooksPage(int id)
+        [HttpGet]
+        public async Task <IActionResult> BookPage(int id)
         {
-            Book book = await _bookRepository.GetByIdAsync(id);
-            return View(book);
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return View("Error");
+            var authors = await _authorRepository.GetAuthorNames(id);
+            var categories = await _categoryRepository.GetCategoryNames(id);
+            var publisher = await _publisherRepository.GetByBookId(id);
+            var bookVM = new BookPageViewModel
+            {
+                Title = book.Title,
+                CoverImagePath = book.CoverImagePath,
+                Authors = authors,
+                Publisher = publisher.Name,
+                Language = book.Language,
+                Description = book.Description,
+                Categories = categories,
+            };
+            return View(bookVM);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

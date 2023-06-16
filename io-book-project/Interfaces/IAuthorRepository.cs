@@ -9,7 +9,7 @@ namespace io_book_project.Interfaces
         Task<Author?> GetByIdAsync(int id);
 
         Task<int> GetCountAsync();
-
+        Task<IEnumerable<Author>> GetAuthorNames(int id);
         bool Add(Author author);
 
         bool Update(Author author);

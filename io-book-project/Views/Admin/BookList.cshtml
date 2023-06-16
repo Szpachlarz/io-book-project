@@ -1,8 +1,10 @@
-﻿@model IEnumerable<io_book_project.Models.Book>
+﻿@using io_book_project.ViewModels
+@model BookListViewModel
 
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
+    int i = 0;
 }
 
 <h1 class="text-muted px-2">Książki</h1>
@@ -21,7 +23,7 @@
                 Tytuł
             </th>
             <th>
-                Liczba stron
+                Autorzy
             </th>
             <th>
                 Rok publikacji
@@ -33,7 +35,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var item in Model)
+        @foreach (var item in Model.Books)
         {
             <tr>
                 <td>
@@ -43,7 +45,15 @@
                     @Html.DisplayFor(modelItem => item.Title)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.PageCount)
+                    @foreach (var author in Model.Authors[i])
+                    {
+                        <p>@author.Names
+                            @if (!string.IsNullOrEmpty(author.Surname))
+                            {
+                                @author.Surname
+                            }
+                        </p>
+                    }
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.PublicationYear)
@@ -65,6 +75,7 @@
 
                 </td>
             </tr>
+            i++;
         }
     </tbody>
 </table>

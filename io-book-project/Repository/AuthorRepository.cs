@@ -34,9 +34,16 @@ namespace io_book_project.Repository
         {
             return await _context.Authors.FirstOrDefaultAsync(i => i.Id == id);
         }
-        public async Task<IEnumerable<Author>> GetAuthorName(int bookId)
+        public async Task<IEnumerable<Author>> GetAuthorNames(int bookId)
         {
-            return await _context.Authors.Include(i => i.bookId).ToListAsync();
+            return await _context.Authors
+                .Include(i => i.BookAuthors)
+                .ThenInclude(i => i.Book)
+                .Where(i => i.BookAuthors.Any(ba => ba.BookId == bookId))
+                //.Select(i => i.Author)
+                .AsNoTracking()
+                .OrderBy(i => i.Surname)
+                .ToListAsync();
         }
 
         public async Task<int> GetCountAsync()
