@@ -22,7 +22,7 @@ namespace io_book_project.Models
         public int PageCount { get; set; }
         public string? Series { get; set; }
         public string Description { get; set; }
-        public DateTime CreatedAt { get; set; }
+            public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public string? CoverImagePath { get; set; }
 
