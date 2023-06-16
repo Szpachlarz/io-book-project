@@ -12,6 +12,9 @@ namespace io_book_project.Models
 
         public string DateOfBirth { get; set; }
 
-        public string DateOfDeath { get; set; }
+        public string? DateOfDeath { get; set; }
+
+        //Authors
+        public List<BookAuthor> BookAuthors { get; set; }
     }
 }

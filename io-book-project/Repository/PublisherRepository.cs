@@ -8,6 +8,10 @@ namespace io_book_project.Repository
     public class PublisherRepository : IPublisherRepository
     {
         private readonly AppDbContext _context;
+        public PublisherRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public bool Add(Publisher publisher)
         {
             _context.Add(publisher);
@@ -33,6 +37,14 @@ namespace io_book_project.Repository
         public async Task<int> GetCountAsync()
         {
             return await _context.Publishers.CountAsync();
+        }
+        public async Task<Publisher?> GetByBookId(int bookId)
+        {
+            return await _context.Publishers
+                .Include(i => i.Books)
+                .Where(i => i.Books.Any(ba => ba.Id == bookId))
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
 
         public bool Save()

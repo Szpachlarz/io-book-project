@@ -8,6 +8,10 @@ namespace io_book_project.Repository
     public class CategoryRepository : ICategoryRepository
     {
         private readonly AppDbContext _context;
+        public CategoryRepository(AppDbContext context)
+        {
+            _context = context;
+        }
         public bool Add(Category category)
         {
             _context.Add(category);
@@ -33,6 +37,16 @@ namespace io_book_project.Repository
         public async Task<int> GetCountAsync()
         {
             return await _context.Categories.CountAsync();
+        }
+        public async Task<IEnumerable<Category>> GetCategoryNames(int bookId)
+        {
+            return await _context.Categories
+                .Include(i => i.BookCategories)
+                .ThenInclude(i => i.Book)
+                .Where(i => i.BookCategories.Any(ba => ba.BookId == bookId))
+                .AsNoTracking()
+                .OrderBy(i => i.Name)
+                .ToListAsync();
         }
 
         public bool Save()

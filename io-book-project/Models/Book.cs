@@ -31,8 +31,11 @@ namespace io_book_project.Models
         public int PublisherId { get; set; }
         public Publisher Publisher { get; set; }
 
-       
-    }
+        //Authors
+        public List<BookAuthor> BookAuthors { get; set; }
 
+        //Categories
+        public List<BookCategory> BookCategories { get; set; }
+    }
     
 }

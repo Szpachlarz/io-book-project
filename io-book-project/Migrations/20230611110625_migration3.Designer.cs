@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using io_book_project.Data;
 
@@ -10,9 +11,11 @@ using io_book_project.Data;
 namespace io_book_project.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230611110625_migration3")]
+    partial class migration3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -481,13 +484,13 @@ namespace io_book_project.Migrations
             modelBuilder.Entity("io_book_project.Models.BookAuthor", b =>
                 {
                     b.HasOne("io_book_project.Models.Author", "Author")
-                        .WithMany("BookAuthors")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("io_book_project.Models.Book", "Book")
-                        .WithMany("BookAuthors")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -500,13 +503,13 @@ namespace io_book_project.Migrations
             modelBuilder.Entity("io_book_project.Models.BookCategory", b =>
                 {
                     b.HasOne("io_book_project.Models.Book", "Book")
-                        .WithMany("BookCategories")
+                        .WithMany()
                         .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("io_book_project.Models.Category", "Category")
-                        .WithMany("BookCategories")
+                        .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -533,23 +536,6 @@ namespace io_book_project.Migrations
                     b.Navigation("Book");
 
                     b.Navigation("User");
-                });
-
-            modelBuilder.Entity("io_book_project.Models.Author", b =>
-                {
-                    b.Navigation("BookAuthors");
-                });
-
-            modelBuilder.Entity("io_book_project.Models.Book", b =>
-                {
-                    b.Navigation("BookAuthors");
-
-                    b.Navigation("BookCategories");
-                });
-
-            modelBuilder.Entity("io_book_project.Models.Category", b =>
-                {
-                    b.Navigation("BookCategories");
                 });
 #pragma warning restore 612, 618
         }
