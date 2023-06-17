@@ -38,6 +38,16 @@ namespace io_book_project.Repository
         {
             return await _context.Categories.CountAsync();
         }
+        public async Task<IEnumerable<Category>> GetCategoryNames(int bookId)
+        {
+            return await _context.Categories
+                .Include(i => i.BookCategories)
+                .ThenInclude(i => i.Book)
+                .Where(i => i.BookCategories.Any(ba => ba.BookId == bookId))
+                .AsNoTracking()
+                .OrderBy(i => i.Name)
+                .ToListAsync();
+        }
 
         public bool Save()
         {

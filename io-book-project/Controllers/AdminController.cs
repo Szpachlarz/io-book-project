@@ -44,31 +44,56 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        [HttpPost]
-        public IActionResult AddAuthor(AddAuthorViewModel model)
+        public async Task<IActionResult> AuthorList()
         {
-            if (ModelState.IsValid)
+            try
             {
-                var author = new Author
-                {
-                    Names = model.Names,
-                    Surname = model.Surname,
-                    Nationality = model.Nationality,
-                    DateOfBirth = model.DateOfBirth,
-                    DateOfDeath = model.DateOfDeath,
-                };
-
-                _authorRepository.Add(author);
-                _authorRepository.Save();
-
-                return RedirectToAction("Index", "Admin");
+                var authors = await _authorRepository.GetAll();
+                return View(authors);
             }
-
-            return View("AddAuthor", model);
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
         }
-
-        public IActionResult AuthorList()
+        public async Task<IActionResult> AuthorDetails(int id)
         {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> AuthorEdit(int id)
+        {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> AuthorDelete(int id)
+        {
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                return View(author);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
 
@@ -120,9 +145,73 @@ namespace io_book_project.Controllers
 
             return View("AddBook", model);
         }
-
-        public IActionResult BookList()
+        [HttpGet]
+        public async Task<IActionResult> BookList()
         {
+            try
+            {
+                var books = await _bookRepository.GetAll();
+                List<List<Author>> authors = new List<List<Author>>();
+                //int i = 0;
+                foreach (var book in books) 
+                {
+                    int id = book.Id;
+                    var bookAuthors = await _authorRepository.GetAuthorNames(id);
+                    authors.Add((List<Author>)bookAuthors);
+                }
+
+                //ViewBag.Authors = authors;
+                var bookListVM = new BookListViewModel
+                {
+                    Books = books,
+                    Authors = authors,
+
+                };
+                return View(bookListVM);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> BookDetails(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var book = await _bookRepository.GetByIdAsync(id);
+            var bookauthor = await _authorRepository.GetByIdAsync(id);
+            return View(book);
+            
+        }
+        public async Task<IActionResult> BookEdit(int id)
+        {
+            try
+            {
+                var book = await _bookRepository.GetByIdAsync(id);
+                return View(book);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> BookDelete(int id)
+        {
+            try
+            {
+                var book = await _bookRepository.GetByIdAsync(id);
+                return View(book);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
 
@@ -142,8 +231,46 @@ namespace io_book_project.Controllers
             return View();
         }
 
-        public IActionResult PublishingHouseList()
+        public async Task<IActionResult> PublishingHouseList()
         {
+            try
+            {
+                var publishers = await _publisherRepository.GetAll();
+                return View(publishers);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        public async Task<IActionResult> PublishingHouseEdit(int id)
+        {
+            try
+            {
+                var publisher = await _publisherRepository.GetByIdAsync(id);
+                return View(publisher);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+        public async Task<IActionResult> PublishingHouseDelete(int id)
+        {
+            try
+            {
+                var publisher = await _publisherRepository.GetByIdAsync(id);
+                _publisherRepository.Delete(publisher);
+                _publisherRepository.Save();
+                return RedirectToAction("PublishingHouseList", "Admin");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
         }
     }

@@ -1,0 +1,42 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="container" style="max-width:960px;">
+
+    <form method="post" autocomplete="off" asp-controller="Admin" asp-action="AuthorList">
+    </form>
+</div>
+
+<form method="POST" asp-controller="Admin" asp-action="DelUser">
+
+    <input type="hidden" id="Id" />
+    <button type="submit" hidden="hidden" id="deleteButtonHidden"></button>
+</form>
+
+<form method="POST" asp-controller="Admin" asp-action="UnbanUser">
+
+    <input type="hidden" id="userId" />
+    <button type="submit" hidden="hidden" id="unbanButtonHidden"></button>
+</form>
+
+<div class="col">
+    <nav aria-label="Buttons">
+        <ul class="pagination justify-content-start flex-container">
+            <li class="page-item me-2 flex-item">
+                <button class="btn btn-lg btn-dark w-100" style="font-size: 17px" id="allButton" onclick="filterButtonClick(1)" type="submit">Wszyscy</button>
+            </li>
+            <li class="page-item me-2 flex-item">
+                <button class="btn btn-lg btn-secondary w-100" style="font-size: 17px" id="activeButton" onclick="filterButtonClick(2)" type="submit">Aktywni</button>
+            </li>
+            <li class="page-item me-2 flex-item">
+                <button class="btn btn-lg btn-secondary w-100" style="font-size: 17px" id="archiveButton" onclick="filterButtonClick(3)" type="submit">Zawieszeni</button>
+            </li>
+            <li class="page-item me-2 flex-item">
+                <button class="btn btn-lg btn-secondary w-100" style="font-size: 17px" id="unActiveButton" onclick="filterButtonClick(5)" type="submit">Nieaktywni</button>
+            </li>
+
+        </ul>
+    </nav>
+</div>

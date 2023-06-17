@@ -1,13 +1,81 @@
-﻿@{
+﻿@using io_book_project.ViewModels
+@model BookListViewModel
+
+@{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
+    int i = 0;
 }
 
 <h1 class="text-muted px-2">Książki</h1>
 <hr class="divider mt-0">
 
-<div class="container" style="max-width:960px;">
+<p>
+    <a asp-action="AddBook" class="btn btn-primary"> <i class="fa-solid fa-circle-plus"></i>Dodaj</a>
+</p>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                ID
+            </th>
+            <th>
+                Tytuł
+            </th>
+            <th>
+                Autorzy
+            </th>
+            <th>
+                Rok publikacji
+            </th>
+            <th>
+                ISBN
+            </th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Books)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @foreach (var author in Model.Authors[i])
+                    {
+                        <p>@author.Names
+                            @if (!string.IsNullOrEmpty(author.Surname))
+                            {
+                                @author.Surname
+                            }
+                        </p>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PublicationYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ISBN)
+                </td>
+                <td>
+                    <form asp-action="BookDelete" asp-route-id="@item.Id" style="text-align: center;">
+                        <div style="text-align: center;">
+                            <a asp-action="BookEdit" asp-route-id="@item.Id" class="btn btn-warning" style="margin-right: 20px;">
+                                <i class="bi-pen"></i>
+                            </a>
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć rekord?')">
+                                <i class="bi-trash"></i>
+                            </button>
+                        </div>
+                    </form>
 
-    <form method="post" autocomplete="off" asp-controller="Admin" asp-action="BookList">
-    </form>
-</div>
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

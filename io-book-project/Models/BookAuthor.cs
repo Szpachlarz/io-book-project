@@ -12,9 +12,6 @@ namespace io_book_project.Models
         public Book Book { get; set; }
         [ForeignKey("Author")]
         public int AuthorId { get; set; }
-        public Author Author { get; set; }
-
-
-        
+        public Author Author { get; set; }        
     }
 }

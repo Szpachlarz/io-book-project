@@ -1,0 +1,49 @@
+﻿@using io_book_project.ViewModels
+@model BookPageViewModel
+@{
+    ViewData["Title"] = "Books Page";
+}
+
+<div class="album py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow">
+                    <img class="card-img-top" src="@Model.CoverImagePath" />
+                </div>
+            </div>
+            <div class="col-md-4 text-left ps-5">
+                <h3>Tytuł</h3>
+                <p>@Model.Title</p>
+ 
+                <h3>Autorzy</h3>
+                <p>
+                    @foreach (var author in Model.Authors)
+                    {
+                        <li>@author.Names @author.Surname</li>
+                    }
+                </p>
+                <h3>Wydawnictwo</h3>
+                <p>@Model.Publisher</p>
+                <h3>Język</h3>
+                <p>@Model.Language</p>
+                <h3>Opis</h3>
+                <p>@Model.Description</p>
+                <h3>Kategorie</h3>
+                <p>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <li>@category.Name</li>
+                    }
+                </p>
+            </div>
+            <div class="col-md-4 text-center">
+                <h3>Ocena</h3>
+                <p>4,2</p>
+                <h3>Oceń tę książkę</h3>
+                <p>gwiazdki do oceniania</p>
+            </div>
+        </div>
+    </div>
+</div>
+<p>Recenzje</p>

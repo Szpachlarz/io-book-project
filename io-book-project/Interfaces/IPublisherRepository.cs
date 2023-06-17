@@ -9,6 +9,7 @@ namespace io_book_project.Interfaces
         Task<Publisher?> GetByIdAsync(int id);
 
         Task<int> GetCountAsync();
+        Task<Publisher?> GetByBookId(int id);
 
         bool Add(Publisher publisher);
 
