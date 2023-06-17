@@ -45,7 +45,7 @@ namespace io_book_project.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddAuthor(AddAuthorViewModel model)
+        public async Task<IActionResult> AddAuthor(AddAuthorViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,7 @@ namespace io_book_project.Controllers
                 _authorRepository.Add(author);
                 _authorRepository.Save();
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("AddAuthor", "Admin");
             }
 
             return View("AddAuthor", model);
@@ -175,7 +175,6 @@ namespace io_book_project.Controllers
             {
                 var books = await _bookRepository.GetAll();
                 List<List<Author>> authors = new List<List<Author>>();
-                //int i = 0;
                 foreach (var book in books) 
                 {
                     int id = book.Id;
@@ -183,7 +182,6 @@ namespace io_book_project.Controllers
                     authors.Add((List<Author>)bookAuthors);
                 }
 
-                //ViewBag.Authors = authors;
                 var bookListVM = new BookListViewModel
                 {
                     Books = books,
@@ -247,7 +245,7 @@ namespace io_book_project.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddCategory(AddCategoryViewModel model)
+        public async Task<IActionResult> AddCategory(AddCategoryViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -259,7 +257,7 @@ namespace io_book_project.Controllers
                 _categoryRepository.Add(category);
                 _categoryRepository.Save();
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("AddCategory", "Admin");
             }
 
             return View("AddCategory", model);
@@ -278,7 +276,7 @@ namespace io_book_project.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddPublishingHouse(AddPublisherViewModel model)
+        public async Task<IActionResult> AddPublishingHouse(AddPublisherViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -293,7 +291,7 @@ namespace io_book_project.Controllers
                 _publisherRepository.Add(publisher);
                 _publisherRepository.Save();
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("AddPublishingHouse", "Admin");
             }
 
             return View("AddPublishingHouse", model);

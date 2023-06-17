@@ -9,19 +9,14 @@
 <h1 class="text-muted px-2">Dodaj wydawnictwo</h1>
 <hr class="divider mt-0">
 
-<div class="container" style="max-width:960px;">
-
-    <form method="post" autocomplete="off" asp-controller="Admin" asp-action="AddPublishingHouse">
-    </form>
-</div>
-
+<form method="post" autocomplete="off" asp-controller="Admin" asp-action="AddPublishingHouse">
 <div class="row m-2">
     <div class="col-12 ">
         <div class="row m-2">
             <div class="col-12">
                 <div class="forms-inputs">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="Title" autocomplete="off" placeholder="a">
+                        <input type="text" asp-for="Name" class="form-control" id="Title" autocomplete="off" placeholder="a">
                         <label for="Title">Nazwa</label>
                     </div>
                     <span class="mx-2 mt-1 errorTextColor"></span>
@@ -32,7 +27,7 @@
             <div class="col-12">
                 <div class="forms-inputs">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="Country" autocomplete="off" placeholder="a">
+                        <input type="text" asp-for="Country" class="form-control" id="Country" autocomplete="off" placeholder="a">
                         <label for="Country">Kraj</label>
                     </div>
                     <span class="mx-2 mt-1 errorTextColor"></span>
@@ -43,14 +38,14 @@
             <div class="col-12">
                 <div class="forms-inputs">
                     <div class="form-floating">
-                        <input type="text" class="form-control" id="City" autocomplete="off" placeholder="a">
+                        <input type="text" asp-for="City" class="form-control" id="City" autocomplete="off" placeholder="a">
                         <label for="City">Miasto</label>
                     </div>
                     <span class="mx-2 mt-1 errorTextColor"></span>
                 </div>
             </div>
         </div>
-        <div class="row m-2">
+@*        <div class="row m-2">
             <div class="col-12">
                 <div class="forms-inputs">
                     <div class="form-floating">
@@ -93,7 +88,7 @@
                     <span class="mx-2 mt-1 errorTextColor"></span>
                 </div>
             </div>
-        </div>
+        </div>*@
         <div class="row m-2">
             <div class="float-end">
                 <button type="submit" class="btn btn-primary btn-lg float-end" name="senduser">Dodaj</button>
@@ -101,3 +96,4 @@
         </div>
     </div>
 </div>
+</form>
