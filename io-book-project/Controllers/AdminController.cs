@@ -238,9 +238,31 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult AddCategory()
         {
+            // może kiedyś coś tu będzie
             return View();
+
+        }
+
+        [HttpPost]
+        public IActionResult AddCategory(AddCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = new Category
+                {
+                    Name = model.Name,
+                };
+
+                _categoryRepository.Add(category);
+                _categoryRepository.Save();
+
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View("AddCategory", model);
 
         }
 
@@ -249,9 +271,32 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult AddPublishingHouse()
         {
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult AddPublishingHouse(AddPublisherViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var publisher = new Publisher
+                {
+                    Name = model.Name,
+                    Country = model.Country,
+                    City = model.City,
+
+                };
+
+                _publisherRepository.Add(publisher);
+                _publisherRepository.Save();
+
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View("AddPublishingHouse", model);
         }
 
         public async Task<IActionResult> PublishingHouseList()
