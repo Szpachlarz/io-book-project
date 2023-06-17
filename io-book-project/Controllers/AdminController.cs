@@ -44,6 +44,29 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpPost]
+        public IActionResult AddAuthor(AddAuthorViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var author = new Author
+                {
+                    Names = model.Names,
+                    Surname = model.Surname,
+                    Nationality = model.Nationality,
+                    DateOfBirth = model.DateOfBirth,
+                    DateOfDeath = model.DateOfDeath,
+                };
+
+                _authorRepository.Add(author);
+                _authorRepository.Save();
+
+                return RedirectToAction("Index", "Admin");
+            }
+
+            return View("AddAuthor", model);
+        }
+
         public async Task<IActionResult> AuthorList()
         {
             try
