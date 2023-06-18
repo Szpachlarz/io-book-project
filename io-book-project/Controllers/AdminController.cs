@@ -37,9 +37,34 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult AddAuthor()
         {
+            // może kiedyś coś tu będzie
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAuthor(AddAuthorViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var author = new Author
+                {
+                    Names = model.Names,
+                    Surname = model.Surname,
+                    Nationality = model.Nationality,
+                    DateOfBirth = model.DateOfBirth,
+                    DateOfDeath = model.DateOfDeath,
+                };
+
+                _authorRepository.Add(author);
+                _authorRepository.Save();
+
+                return RedirectToAction("AddAuthor", "Admin");
+            }
+
+            return View("AddAuthor", model);
         }
 
         public async Task<IActionResult> AuthorList()
@@ -150,7 +175,6 @@ namespace io_book_project.Controllers
             {
                 var books = await _bookRepository.GetAll();
                 List<List<Author>> authors = new List<List<Author>>();
-                //int i = 0;
                 foreach (var book in books) 
                 {
                     int id = book.Id;
@@ -158,7 +182,6 @@ namespace io_book_project.Controllers
                     authors.Add((List<Author>)bookAuthors);
                 }
 
-                //ViewBag.Authors = authors;
                 var bookListVM = new BookListViewModel
                 {
                     Books = books,
@@ -213,9 +236,32 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult AddCategory()
         {
+            // może kiedyś coś tu będzie
             return View();
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddCategory(AddCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var category = new Category
+                {
+                    Name = model.Name,
+                };
+
+                _categoryRepository.Add(category);
+                _categoryRepository.Save();
+
+                return RedirectToAction("AddCategory", "Admin");
+            }
+
+            return View("AddCategory", model);
+
         }
 
         public IActionResult CategoryList()
@@ -223,9 +269,32 @@ namespace io_book_project.Controllers
             return View();
         }
 
+        [HttpGet]
         public IActionResult AddPublishingHouse()
         {
             return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddPublishingHouse(AddPublisherViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var publisher = new Publisher
+                {
+                    Name = model.Name,
+                    Country = model.Country,
+                    City = model.City,
+
+                };
+
+                _publisherRepository.Add(publisher);
+                _publisherRepository.Save();
+
+                return RedirectToAction("AddPublishingHouse", "Admin");
+            }
+
+            return View("AddPublishingHouse", model);
         }
 
         public async Task<IActionResult> PublishingHouseList()

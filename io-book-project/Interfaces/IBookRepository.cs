@@ -6,6 +6,8 @@ namespace io_book_project.Interfaces
     {
         Task<IEnumerable<Book>> GetAll();
 
+        Task<IEnumerable<Book>> GetAllbooks(string searchby, string searchfor);
+
         Task<Book?> GetByIdAsync(int id);
 
         Task<int> GetCountAsync();
