@@ -26,10 +26,21 @@ namespace io_book_project.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg=1)
         {
             IEnumerable<Book> books = await _bookRepository.GetAll();
-            return View(books);
+
+            const int pageSize = 1;
+            if(pg < 1)
+                pg = 1;
+            int recsCount = books.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = books.Skip(recSkip).Take(pager.PageSize).ToArray();
+            this.ViewBag.Pager = pager;
+
+            //return View(books);
+            return View(data);
         }
 
         public IActionResult Privacy()

@@ -107,13 +107,14 @@
                     @Html.DisplayFor(modelItem => item.DateOfDeath)
                 </td>
                 <td>
-                    <form asp-action="AuthorDelete" asp-route-id="@item.Id" style="text-align: center;">
-                        <div style="text-align: center;">
-                            <a asp-action="AuthorEdit" asp-route-id="@item.Id" class="btn btn-warning" style="margin-right: 20px;">
-                                <i class="bi-pen"></i>
+                    <form asp-action="AuthorDelete" asp-route-id="@item.Id">
+                        <div class="btn-group btn-group-sm">
+                            <a asp-action="AuthorEdit" asp-route-id="@item.Id" class="btn btn-warning">
+                                <i class="fa-solid fa-pen-to-square"></i>
                             </a>
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć rekord?')">
-                                <i class="bi-trash"></i>
+                            <button type="submit" class="btn btn-danger"
+                                    onclick="return confirm('Czy na pewno chcesz usunąć rekord?')">
+                                <i class="far fa-trash-alt"></i>
                             </button>
                         </div>
                     </form>

@@ -1,7 +1,17 @@
 ﻿@model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
+
+<partial name="_pager" model="@pager" />
 
 <div class="album py-5 bg-light">
     <div class="container">
@@ -24,4 +34,3 @@
         </div>
     </div>
 </div>
-
