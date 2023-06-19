@@ -34,6 +34,11 @@ namespace io_book_project.Repository
             return await _context.Publishers.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<Publisher?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Publishers.AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public async Task<int> GetCountAsync()
         {
             return await _context.Publishers.CountAsync();

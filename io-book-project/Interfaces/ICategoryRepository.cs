@@ -8,7 +8,10 @@ namespace io_book_project.Interfaces
 
         Task<Category?> GetByIdAsync(int id);
 
+        Task<Category?> GetByIdAsyncNoTracking(int id);
+
         Task<int> GetCountAsync();
+
         Task<IEnumerable<Category>> GetCategoryNames(int id);
 
         bool Add(Category category);

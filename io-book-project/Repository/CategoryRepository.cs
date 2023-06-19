@@ -34,6 +34,11 @@ namespace io_book_project.Repository
             return await _context.Categories.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<Category?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Categories.AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public async Task<int> GetCountAsync()
         {
             return await _context.Categories.CountAsync();

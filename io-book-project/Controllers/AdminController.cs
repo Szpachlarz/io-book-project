@@ -10,6 +10,7 @@ using io_book_project.Data;
 using static System.Net.WebRequestMethods;
 using io_book_project.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Net;
 
 namespace io_book_project.Controllers
 {
@@ -93,31 +94,62 @@ namespace io_book_project.Controllers
             }
             return View();
         }
+        [HttpGet]
         public async Task<IActionResult> AuthorEdit(int id)
         {
-            try
+            if (id == null)
             {
-                var author = await _authorRepository.GetByIdAsync(id);
-                return View(author);
+                return NotFound();
             }
-            catch (Exception)
+
+            var author = await _authorRepository.GetByIdAsync(id);
+            if (author == null) return View("Error");
+        
+            var model = new AddAuthorViewModel()
             {
-                throw;
+                Names = author.Names,
+                Surname = author.Surname,
+                Nationality = author.Nationality,
+                DateOfBirth = author.DateOfBirth,
+                DateOfDeath = author.DateOfDeath
+            };
+
+            return View(model);            
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AuthorEdit(int id, AddAuthorViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Nie udało się zedytować");
+                return View(model);
             }
-            return View();
+            var author = await _authorRepository.GetByIdAsyncNoTracking(id);
+
+            if (author == null)
+            {
+                return View("Error");
+            }
+
+            var author2 = new Author
+            {
+                Id = id,
+                Names = model.Names,
+                Surname = model.Surname,
+                Nationality = model.Nationality,
+                DateOfBirth = model.DateOfBirth,
+                DateOfDeath = model.DateOfDeath,
+            };
+
+            _authorRepository.Update(author2);
+            return RedirectToAction("AuthorList");
         }
         public async Task<IActionResult> AuthorDelete(int id)
         {
-            try
-            {
-                var author = await _authorRepository.GetByIdAsync(id);
-                return View(author);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return View();
+            var author = await _authorRepository.GetByIdAsync(id);
+            if (author == null) return View("Error");
+            return View(author);
         }
 
         [HttpGet]
@@ -163,7 +195,7 @@ namespace io_book_project.Controllers
                 _bookRepository.Add(book);
                 _bookRepository.Save();
 
-                return RedirectToAction("Index", "Admin");
+                return RedirectToAction("BookList", "Admin");
             }
 
             return View("AddBook", model);
@@ -264,9 +296,62 @@ namespace io_book_project.Controllers
 
         }
 
-        public IActionResult CategoryList()
+        public async Task<IActionResult> CategoryList()
         {
+            try
+            {
+                var categories = await _categoryRepository.GetAll();
+                return View(categories);
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return View();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CategoryEdit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var category = await _categoryRepository.GetByIdAsync(id);
+            if (category == null) return View("Error");
+
+            var model = new AddCategoryViewModel()
+            {
+                Name = category.Name,
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CategoryEdit(int id, AddCategoryViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Nie udało się zedytować");
+                return View(model);
+            }
+            var category = await _categoryRepository.GetByIdAsyncNoTracking(id);
+
+            if (category == null)
+            {
+                return View("Error");
+            }
+
+            var category2 = new Category
+            {
+                Id = id,
+                Name = model.Name,
+            };
+
+            _categoryRepository.Update(category2);
+            return RedirectToAction("CategoryList");
         }
 
         [HttpGet]
@@ -310,19 +395,51 @@ namespace io_book_project.Controllers
             }
             return View();
         }
-
+        [HttpGet]
         public async Task<IActionResult> PublishingHouseEdit(int id)
         {
-            try
+            if (id == null)
             {
-                var publisher = await _publisherRepository.GetByIdAsync(id);
-                return View(publisher);
+                return NotFound();
             }
-            catch (Exception)
+
+            var publisher = await _publisherRepository.GetByIdAsync(id);
+            if (publisher == null) return View("Error");
+
+            var model = new AddPublisherViewModel()
             {
-                throw;
+                Name = publisher.Name,
+                Country = publisher.Country,
+                City = publisher.City,
+            };
+
+            return View(model);
+        }
+        [HttpPost]
+        public async Task<IActionResult> PublishingHouseEdit(int id, AddPublisherViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Nie udało się zedytować");
+                return View(model);
             }
-            return View();
+            var publisher = await _publisherRepository.GetByIdAsyncNoTracking(id);
+
+            if (publisher == null)
+            {
+                return View("Error");
+            }
+
+            var publisher2 = new Publisher
+            {
+                Id = id,
+                Name = model.Name,
+                Country = model.Country,
+                City = model.City
+            };
+
+            _publisherRepository.Update(publisher2);
+            return RedirectToAction("PublishingHouseList");
         }
         public async Task<IActionResult> PublishingHouseDelete(int id)
         {

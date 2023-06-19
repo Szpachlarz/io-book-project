@@ -34,6 +34,12 @@ namespace io_book_project.Repository
         {
             return await _context.Authors.FirstOrDefaultAsync(i => i.Id == id);
         }
+
+        public async Task<Author?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Authors.AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public async Task<IEnumerable<Author>> GetAuthorNames(int bookId)
         {
             return await _context.Authors

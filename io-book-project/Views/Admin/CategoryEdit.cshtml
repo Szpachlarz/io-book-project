@@ -1,0 +1,33 @@
+﻿@using io_book_project.ViewModels;
+@model AddCategoryViewModel
+
+@{
+    Layout = "_AdminLayout";
+    ViewData["Title"] = "Panel administratora";
+}
+
+<h1 class="text-muted px-2">Edytuj kategorię</h1>
+<hr class="divider mt-0">
+
+<form method="post" autocomplete="off" asp-controller="Admin" asp-action="CategoryEdit">
+    <div class="row m-2">
+        <div class="col-12 ">
+            <div class="row m-2">
+                <div class="col-12">
+                    <div class="forms-inputs">
+                        <div class="form-floating">
+                            <input type="text" asp-for="Name" class="form-control" id="CategoryName" autocomplete="off" placeholder="a">
+                            <label for="CategoryName">Nazwa</label>
+                        </div>
+                        <span class="mx-2 mt-1 errorTextColor"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row m-2">
+                <div class="float-end">
+                    <button type="submit" class="btn btn-primary btn-lg float-end" name="sendcategory">Zapisz</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
