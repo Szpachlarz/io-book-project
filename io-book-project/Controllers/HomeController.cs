@@ -5,6 +5,7 @@ using io_book_project.Repository;
 using io_book_project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Dynamic;
 
@@ -52,7 +53,14 @@ namespace io_book_project.Controllers
                 Authors = authors,
                 Publisher = publisher.Name,
                 Language = book.Language,
+                OriginalLanguage = book.OriginalLanguage,
+                Translation = book.Translation,
                 Description = book.Description,
+                Series = book.Series,
+                PublicationYear = book.PublicationYear,
+                FirstPublicationYear = book.FirstPublicationYear,
+                ISBN=book.ISBN,
+                PageCount=book.PageCount,
                 Categories = categories,
             };
             return View(bookVM);
