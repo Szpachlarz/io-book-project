@@ -7,6 +7,7 @@ namespace io_book_project.ViewModels
 {
     public class AddAuthorViewModel
     {
+        public int Id { get; set; }
         [Display(Name = "Nazwa")]
         [Required(ErrorMessage = "Nazwa autora jest wymagana")]
         [StringLength(120, ErrorMessage = "Maksymalnie 120 znaków")]

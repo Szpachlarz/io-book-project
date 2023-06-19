@@ -7,6 +7,7 @@ namespace io_book_project.Interfaces
         Task<IEnumerable<Author>> GetAll();
 
         Task<Author?> GetByIdAsync(int id);
+        Task<Author?> GetByIdAsyncNoTracking(int id);
 
         Task<int> GetCountAsync();
         Task<IEnumerable<Author>> GetAuthorNames(int id);
