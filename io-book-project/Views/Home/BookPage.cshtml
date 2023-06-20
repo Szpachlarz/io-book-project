@@ -15,13 +15,19 @@
             </div>
             <div class="col-md-8 text-left ps-5">
                 <h2>@Model.Title ★★★★☆</h2>
- 
-                <h5>
-                    @foreach (var author in Model.Authors)
-                    {
-                        <a href="#"><p>@author.Names @author.Surname</p></a>
-                    }
-                </h5>
+                            
+                @foreach (var author in Model.Authors)
+                {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                        <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AuthorsPage" asp-route-id="@author.Id">
+                        @author.Names @author.Surname
+                        </a>
+                        </li>
+                    </ul>
+                }
+                            
+
                 @if (@Model.Series != null && Model.Series!="")
                 {
                     <p>Cykl: @Model.Series</p>
@@ -34,7 +40,10 @@
                 </p>
                 <br/>
                 <h5>Dane szczegółowe:</h5>
+
+
                 <p>Wydawnictwo: <a href="#">@Model.Publisher</a></p>
+
                 <p>Język: @Model.Language</p> 
                 @if (@Model.OriginalLanguage != null && Model.OriginalLanguage != "")
                 {
@@ -45,9 +54,12 @@
                     <p>Język oryginału: @Model.Translation</p>
                 }
                 <p>Liczba stron: @Model.PageCount</p>
+
                 <p>Rok wydania: @Model.PublicationYear.ToString("yyyy")</p>
 
+                @(Model.FirstPublicationYear != null){
                 <p>Rok pierwszego wydania: @Model.FirstPublicationYear</p>
+                }
                
                 <p>ISBN: @Model.ISBN</p>
 

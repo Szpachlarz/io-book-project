@@ -1,4 +1,5 @@
-﻿@model Author
+﻿@using io_book_project.ViewModels
+@model AuthorsPageViewModel
 @{
     ViewData["Title"] = "Authors Page";
 }
@@ -6,25 +7,38 @@
 <div class="album py-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 text-left ps-5">
-                <h3>Tytuł</h3>
-                
-                <h3>Imię i nazwisko</h3>
-                <p>Błażej Bagiński</p>
-                <h3>Rok urodzenia</h3>
-                <p>2000</p>
-                
-                <h3>Rok śmierci (jeśli umarł)</h3>
-                <p>2024</p>
+            <div class="col-md-6 text-left ps-5"> 
+                <h3>@Model.Names @Model.Surname</h3>
+                <p>Data urodzenia: @Model.DateOfBirth</p>
+                @if (Model.DateOfDeath != null && Model.DateOfDeath != "")
+                {
+                    <p>Data śmierci: @Model.DateOfDeath</p>
+                }
+                <p>Narodowość: @Model.Nationality</p>
+
                 <h3>Coś jeszcze</h3>
                 <p>ciuf ciuf</p>
+                Me gusta tocar guitarra </br>
+                me gusta cantar el son </br>
+                Mariachi me acompañan </br>
+                cuando canto mi canción </br>
+                </br></br>
+                Me gusta tomar mis copas </br>
+                aguardiente es lo mejor </br>
+                También el tequila </br>
+                blanco con su sal de la sabor </br>
+                </br></br>
+                Ay ay ay ay </br>
+                ay mi amor </br>
+                Ay mi morena </br>
+                de mi corazón</br>
             </div>
             <div class="col-md-6 text-center">
-                <h3>Liczba napisanych książek</h3>
+                <h4>Liczba napisanych książek</h4>
                 <p>404</p>
-                <h3>Ogólna ocena książek</h3>
+                <h4>Ogólna ocena książek</h4>
                 <p>2,8</p>
-                <h3>Najwyżej oceniana książka:</h3>
+                <h4>Najwyżej oceniana książka:</h4>
                 <p>yśyś ciuf, 3,5</p>
             </div>
         </div>

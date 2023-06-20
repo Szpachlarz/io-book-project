@@ -31,7 +31,7 @@ namespace io_book_project.Controllers
         {
             IEnumerable<Book> books = await _bookRepository.GetAll();
 
-            const int pageSize = 3;
+            const int pageSize = 9;
             if(pg < 1)
                 pg = 1;
             int recsCount = books.Count();
@@ -76,11 +76,23 @@ namespace io_book_project.Controllers
             };
             return View(bookVM);
         }
-
+        [HttpGet]
         public async Task<IActionResult> AuthorsPage(int id)
         {
+
+            var author = await _authorRepository.GetByIdAsync(id);
+            if (author == null) return View("Error");
             
-            return View();
+            var authorVM = new AuthorsPageViewModel
+            {
+                Names = author.Names,
+                Surname = author.Surname,
+                Nationality = author.Nationality,
+                DateOfBirth = author.DateOfBirth,
+                DateOfDeath = author.DateOfDeath,
+                
+            };
+            return View(authorVM);
         }
 
         public async Task<IActionResult> PublishersPage(int id)
