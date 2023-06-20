@@ -31,7 +31,7 @@ namespace io_book_project.Controllers
         {
             IEnumerable<Book> books = await _bookRepository.GetAll();
 
-            const int pageSize = 1;
+            const int pageSize = 3;
             if(pg < 1)
                 pg = 1;
             int recsCount = books.Count();
