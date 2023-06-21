@@ -25,10 +25,37 @@ namespace io_book_project.Controllers
             _publisherRepository = publisherRepository;
             _categoryRepository = categoryRepository;
         }
-
-        public async Task<IActionResult> Index()
+        [HttpGet]
+        public async Task<IActionResult> Index(string sortOrder, string searchString)
         {
-            IEnumerable<Book> books = await _bookRepository.GetAll();
+            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            ViewData["CurrentFilter"] = searchString;
+
+            var books = from s in await _bookRepository.GetAll()
+                        select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                books = books.Where(s => s.Title.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    books = books.OrderByDescending(s => s.Title);
+                    break;
+                case "Date":
+                    books = books.OrderBy(s => s.CreatedAt);
+                    break;
+                case "date_desc":
+                    books = books.OrderByDescending(s => s.CreatedAt);
+                    break;
+                default:
+                    books = books.OrderBy(s => s.Title);
+                    break;
+            }
+            //IEnumerable<Book> books = await _bookRepository.GetAll();
             return View(books);
         }
 

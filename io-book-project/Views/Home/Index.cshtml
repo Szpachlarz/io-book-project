@@ -3,6 +3,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Title)</a>
+
 <div class="album py-5 bg-light">
     <div class="container">
         <div class="row">
