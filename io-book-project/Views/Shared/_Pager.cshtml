@@ -1,8 +1,12 @@
 ﻿@model io_book_project.Models.Pager
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@using Microsoft.AspNetCore.Mvc.ViewFeatures;
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
 @{
+    var controllerName = ViewContext.ActionDescriptor.GetType().GetProperty("ControllerName").GetValue(ViewContext.ActionDescriptor).ToString();
+    var actionName = ViewContext.ActionDescriptor.GetType().GetProperty("ActionName").GetValue(ViewContext.ActionDescriptor).ToString();
 }
 
 <div class="container">
@@ -12,25 +16,25 @@
             @if (Model.CurrentPage > 1)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="1">Pierwsza strona</a>
+                    <a class="page-link" asp-controller="@controllerName" asp-action="@actionName" asp-route-pg="1">Pierwsza strona</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="@(Model.CurrentPage - 1)">Poprzednia strona</a>
+                    <a class="page-link" asp-controller="@controllerName" asp-action="@actionName" asp-route-pg="@(Model.CurrentPage - 1)">Poprzednia strona</a>
                 </li>
             }
             @for (var pge = Model.StartPage; pge <= Model.EndPage; pge++)
             {
                 <li class="page-item @(pge == Model.CurrentPage ? "active" : "")">
-                    <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="@pge">@pge</a>
+                    <a class="page-link" asp-controller="@controllerName" asp-action="@actionName" asp-route-pg="@pge">@pge</a>
                 </li>
             }
             @if (Model.CurrentPage < Model.TotalPages)
             {
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="@(Model.CurrentPage + 1)">Następna strona</a>
+                    <a class="page-link" asp-controller="@controllerName" asp-action="@actionName" asp-route-pg="@(Model.CurrentPage + 1)">Następna strona</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" asp-controller="Home" asp-action="Index" asp-route-pg="@Model.TotalPages">Ostatnia strona</a>
+                    <a class="page-link" asp-controller="@controllerName" asp-action="@actionName" asp-route-pg="@Model.TotalPages">Ostatnia strona</a>
                 </li>
             }
         </ul>

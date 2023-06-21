@@ -5,10 +5,20 @@
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
     int i = 0;
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1 class="text-muted px-2">Książki</h1>
 <hr class="divider mt-0">
+
+<partial name="_pager" model="@pager" />
 
 <p>
     <a asp-action="AddBook" class="btn btn-primary"> <i class="fa-solid fa-circle-plus"></i>Dodaj</a>
