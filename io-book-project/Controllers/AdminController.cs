@@ -236,7 +236,7 @@ namespace io_book_project.Controllers
 
                 var bookListVM = new BookListViewModel
                 {
-                    Books = books,
+                    Books = data,
                     Authors = authors,
                     Data = data,
                 };
