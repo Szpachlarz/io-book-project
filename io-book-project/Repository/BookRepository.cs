@@ -51,7 +51,7 @@ namespace io_book_project.Repository
             return await _context.Books.CountAsync();
         }
 
-        public Task<IEnumerable<Book>> GetAllbooks(string searchby, string searchfor)
+        public Task<IEnumerable<Book>> GetAllbooks()
         {
             throw new NotImplementedException();
         }

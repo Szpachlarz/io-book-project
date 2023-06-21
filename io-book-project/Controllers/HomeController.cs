@@ -5,6 +5,7 @@ using io_book_project.Repository;
 using io_book_project.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Dynamic;
 
@@ -40,23 +41,21 @@ namespace io_book_project.Controllers
                 books = books.Where(s => s.Title.Contains(searchString));
             }
 
-            switch (sortOrder)
-            {
-                case "name_desc":
-                    books = books.OrderByDescending(s => s.Title);
-                    break;
-                case "Date":
-                    books = books.OrderBy(s => s.CreatedAt);
-                    break;
-                case "date_desc":
-                    books = books.OrderByDescending(s => s.CreatedAt);
-                    break;
-                default:
-                    books = books.OrderBy(s => s.Title);
-                    break;
-            }
-            //IEnumerable<Book> books = await _bookRepository.GetAll();
-            return View(books);
+        public async Task<IActionResult> Index(int pg=1)
+        {
+            IEnumerable<Book> books = await _bookRepository.GetAll();
+
+            const int pageSize = 3;
+            if(pg < 1)
+                pg = 1;
+            int recsCount = books.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = books.Skip(recSkip).Take(pager.PageSize).ToArray();
+            this.ViewBag.Pager = pager;
+
+            //return View(books);
+            return View(data);
         }
 
         public IActionResult Privacy()
@@ -79,7 +78,14 @@ namespace io_book_project.Controllers
                 Authors = authors,
                 Publisher = publisher.Name,
                 Language = book.Language,
+                OriginalLanguage = book.OriginalLanguage,
+                Translation = book.Translation,
                 Description = book.Description,
+                Series = book.Series,
+                PublicationYear = book.PublicationYear,
+                FirstPublicationYear = book.FirstPublicationYear,
+                ISBN=book.ISBN,
+                PageCount=book.PageCount,
                 Categories = categories,
             };
             return View(bookVM);

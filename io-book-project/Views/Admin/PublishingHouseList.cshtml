@@ -2,10 +2,20 @@
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <h1 class="text-muted px-2">Wydawnictwa</h1>
 <hr class="divider mt-0">
+
+<partial name="_pager" model="@pager" />
 
 <div class="container" style="max-width:960px;">
 

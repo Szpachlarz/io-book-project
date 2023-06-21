@@ -11,6 +11,7 @@ using static System.Net.WebRequestMethods;
 using io_book_project.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace io_book_project.Controllers
 {
@@ -68,12 +69,23 @@ namespace io_book_project.Controllers
             return View("AddAuthor", model);
         }
 
-        public async Task<IActionResult> AuthorList()
+        public async Task<IActionResult> AuthorList(int pg=1)
         {
             try
             {
                 var authors = await _authorRepository.GetAll();
-                return View(authors);
+
+                const int pageSize = 10;
+                if (pg < 1)
+                    pg = 1;
+                int recsCount = authors.Count();
+                var pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = authors.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
+
+                //return View(authors);
+                return View(data);
             }
             catch (Exception)
             {
@@ -201,11 +213,19 @@ namespace io_book_project.Controllers
             return View("AddBook", model);
         }
         [HttpGet]
-        public async Task<IActionResult> BookList()
+        public async Task<IActionResult> BookList(int pg = 1)
         {
             try
             {
                 var books = await _bookRepository.GetAll();
+                const int pageSize = 5;
+                if (pg < 1)
+                    pg = 1;
+                int recsCount = books.Count();
+                var pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = books.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
                 List<List<Author>> authors = new List<List<Author>>();
                 foreach (var book in books) 
                 {
@@ -216,9 +236,9 @@ namespace io_book_project.Controllers
 
                 var bookListVM = new BookListViewModel
                 {
-                    Books = books,
+                    Books = data,
                     Authors = authors,
-
+                    Data = data,
                 };
                 return View(bookListVM);
             }
@@ -296,12 +316,21 @@ namespace io_book_project.Controllers
 
         }
 
-        public async Task<IActionResult> CategoryList()
+        public async Task<IActionResult> CategoryList(int pg = 1)
         {
             try
             {
                 var categories = await _categoryRepository.GetAll();
-                return View(categories);
+                const int pageSize = 10;
+                if (pg < 1)
+                    pg = 1;
+                int recsCount = categories.Count();
+                var pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = categories.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
+                //return View(categories);
+                return View(data);
             }
             catch (Exception)
             {
@@ -382,12 +411,21 @@ namespace io_book_project.Controllers
             return View("AddPublishingHouse", model);
         }
 
-        public async Task<IActionResult> PublishingHouseList()
+        public async Task<IActionResult> PublishingHouseList(int pg = 1)
         {
             try
             {
                 var publishers = await _publisherRepository.GetAll();
-                return View(publishers);
+                const int pageSize = 10;
+                if (pg < 1)
+                    pg = 1;
+                int recsCount = publishers.Count();
+                var pager = new Pager(recsCount, pg, pageSize);
+                int recSkip = (pg - 1) * pageSize;
+                var data = publishers.Skip(recSkip).Take(pager.PageSize).ToList();
+                this.ViewBag.Pager = pager;
+                //return View(publishers);
+                return View(data);
             }
             catch (Exception)
             {

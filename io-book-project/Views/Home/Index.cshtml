@@ -1,9 +1,17 @@
 ﻿@model IEnumerable<Book>
 @{
     ViewData["Title"] = "Home Page";
+
+    Pager pager = new Pager();
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
-<a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParm"]">@Html.DisplayNameFor(model => model.Title)</a>
+<partial name="_pager" model="@pager" />
 
 <div class="album py-5 bg-light">
     <div class="container">
@@ -13,7 +21,7 @@
                 <div class="col-md-4">
                     <div class="card mb-4 box-shadow">
                         <a asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@item.Id">
-                            <img class="card-img-top" src="@item.CoverImagePath" />
+                            <img height="500px" class="card-img-top" src="@item.CoverImagePath" />
                         </a>
                         <div class="card-body">
                             <a asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@item.Id">
@@ -26,4 +34,3 @@
         </div>
     </div>
 </div>
-
