@@ -18,34 +18,34 @@ namespace io_book_project.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IPublisherRepository _publisherRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository)
+        private readonly IReviewRepository _reviewRepository;
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository)
         {
             _logger = logger;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _publisherRepository = publisherRepository;
             _categoryRepository = categoryRepository;
+            _reviewRepository = reviewRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
-        {
-            ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
-            ViewData["CurrentFilter"] = searchString;
-
-            var books = from s in await _bookRepository.GetAll()
-                        select s;
-
-            if (!String.IsNullOrEmpty(searchString))
-            {
-                books = books.Where(s => s.Title.Contains(searchString));
-            }
-
         public async Task<IActionResult> Index(int pg=1)
         {
+            //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
+            //ViewData["CurrentFilter"] = searchString;
+
             IEnumerable<Book> books = await _bookRepository.GetAll();
 
-            const int pageSize = 3;
+            //var books = from s in await _bookRepository.GetAll()
+            //            select s;
+
+            //if (!String.IsNullOrEmpty(searchString))
+            //{
+            //    books = books.Where(s => s.Title.Contains(searchString));
+            //}
+
+                const int pageSize = 3;
             if(pg < 1)
                 pg = 1;
             int recsCount = books.Count();
@@ -71,8 +71,10 @@ namespace io_book_project.Controllers
             var authors = await _authorRepository.GetAuthorNames(id);
             var categories = await _categoryRepository.GetCategoryNames(id);
             var publisher = await _publisherRepository.GetByBookId(id);
+            var reviews = await _reviewRepository.GetAllForThisBook(id);
             var bookVM = new BookPageViewModel
             {
+                Id = book.Id,
                 Title = book.Title,
                 CoverImagePath = book.CoverImagePath,
                 Authors = authors,
@@ -87,6 +89,7 @@ namespace io_book_project.Controllers
                 ISBN=book.ISBN,
                 PageCount=book.PageCount,
                 Categories = categories,
+                Reviews = reviews
             };
             return View(bookVM);
         }

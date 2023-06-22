@@ -2,6 +2,7 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 
 namespace io_book_project.Repository
 {
@@ -22,6 +23,32 @@ namespace io_book_project.Repository
         public bool Delete(User user)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Book>> GetAllFavourites(string userId)
+        {
+            return await _context.Books
+                .Include(i => i.UserFavourites)
+                .ThenInclude(i => i.User)
+                .Where(i => i.UserFavourites.Any(ba => ba.UserId == userId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+        public async Task<IEnumerable<Book>> GetAFewFavourites(string userId)
+        {
+            return await _context.Books
+                .Include(i => i.UserFavourites)
+                .ThenInclude(i => i.User)
+                .Where(i => i.UserFavourites.Any(ba => ba.UserId == userId))
+                .Take(5)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public bool AddFavourite(UserFavourite userFavourite)
+        {
+            _context.Add(userFavourite);
+            return Save();
         }
 
         public async Task<IEnumerable<User>> GetAllUsers()
