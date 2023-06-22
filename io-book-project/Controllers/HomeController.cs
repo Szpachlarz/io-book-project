@@ -18,13 +18,15 @@ namespace io_book_project.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly IPublisherRepository _publisherRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public HomeController(ILogger<HomeController> logger, AppDbContext context, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository)
+        private readonly IReviewRepository _reviewRepository;
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository/*, IReviewRepository reviewRepository*/)
         {
             _logger = logger;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
             _publisherRepository = publisherRepository;
             _categoryRepository = categoryRepository;
+            //_reviewRepository = reviewRepository;
         }
 
         public async Task<IActionResult> Index(int pg=1)
@@ -57,6 +59,7 @@ namespace io_book_project.Controllers
             var authors = await _authorRepository.GetAuthorNames(id);
             var categories = await _categoryRepository.GetCategoryNames(id);
             var publisher = await _publisherRepository.GetByBookId(id);
+            //var reviews = await _reviewRepository.GetByIdAsync(id);
             var bookVM = new BookPageViewModel
             {
                 Title = book.Title,
@@ -73,6 +76,7 @@ namespace io_book_project.Controllers
                 ISBN=book.ISBN,
                 PageCount=book.PageCount,
                 Categories = categories,
+                //BookId = reviews.BookId,
             };
             return View(bookVM);
         }

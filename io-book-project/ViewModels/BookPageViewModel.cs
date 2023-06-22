@@ -1,5 +1,7 @@
 ﻿using io_book_project.Models;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace io_book_project.ViewModels
 {
@@ -26,5 +28,10 @@ namespace io_book_project.ViewModels
         public IEnumerable<Author> Authors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public string Publisher { get; set; }
+        public int ReviewId { get; set; }
+        public int BookId { get; set; }
+        public string UserId { get; set; }
+        public User User { get; set; }
+        public string Text { get; set; }
     }
 }
