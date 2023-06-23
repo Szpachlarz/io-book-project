@@ -1,4 +1,19 @@
-﻿@{
+﻿@using io_book_project.ViewModels
+@model UserFavouriteViewModel
+@{
     ViewData["Title"] = "Books List";
+}
+
+<div class="text-left ps-5">
+    <h1 class="display-4">Ulubione książki użytkownika @User.Identity.Name</h1>
+</div>
+
+@foreach (var book in Model.FavouriteBooks)
+{
+    <p>
+        <a asp-controller="Home" asp-action="BookPage" asp-route-id="@book.Id">
+            @book.Title
+        </a>
+    </p>
 }
 

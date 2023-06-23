@@ -1,23 +1,33 @@
-﻿@{
+﻿@using io_book_project.ViewModels
+@model UserPageViewModel
+@{
     ViewData["Title"] = "User Page";
 }
 
 <div class="text-left ps-5">
-    <h1 class="display-4">Nazwa użytkownika</h1>
+    <h1 class="display-4">@User.Identity.Name</h1>
 </div>
 
 <div class="album py-5">
     <div class="container">
         <div class="row">
             <div class="col-md-6 text-left ps-5">
-                <h2>Moje książki</h2>
+                <h2>Moje ulubione książki</h2>
                 <br>
-                <h3>Ostatnia książka</h3>
+                @*<h3>Ostatnia książka</h3>
                 <p>nik</p>
                 <h3>Przedostatnia książka</h3>
                 <p>kor</p>
                 <h3>Trzecia ostatnia książka</h3>
-                <p>Si</p>
+                <p>Si</p>*@
+                @foreach (var book in Model.FavouriteBooks)
+                {
+                    <p>
+                        <a asp-controller="Home" asp-action="BookPage" asp-route-id="@book.Id">
+                        @book.Title
+                        </a>
+                    </p>
+                }
                 <a asp-area="" asp-controller="User" asp-action="BooksList">
                     <h3>Więcej książek...</h3>
                 </a>

@@ -1,6 +1,9 @@
 ﻿@using io_book_project.ViewModels
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
 @model BookPageViewModel
 @{
+    Layout = "_Layout";
     ViewData["Title"] = "Books Page";
 }
 
@@ -14,20 +17,24 @@
                 </div>
             </div>
             <div class="col-md-8 text-left ps-5">
-                <h2>@Model.Title ★★★★☆</h2>
-                            
-                @foreach (var author in Model.Authors)
-                {
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                        <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AuthorsPage" asp-route-id="@author.Id">
-                        @author.Names @author.Surname
-                        </a>
-                        </li>
-                    </ul>
-                }
-                            
+                <h2>@Model.Title ★★★★☆
+                    @*@if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)
+                    {
+                        <form asp-controller="User" asp-action="AddToFavourites" asp-route-id="@Model.Id" style="display: inline;">
+                            <button type="submit" class="btn btn-primary" style="background-color: blue; border: none;">
+                            <i class="bi bi-suit-heart"></i>
+                        </button>
+                        </form>
+                    }*@
 
+                </h2>
+ 
+                <h5>
+                    @foreach (var author in Model.Authors)
+                    {
+                        <a href="#"><p>@author.Names @author.Surname</p></a>
+                    }
+                </h5>
                 @if (@Model.Series != null && Model.Series!="")
                 {
                     <p>Cykl: @Model.Series</p>
@@ -83,4 +90,25 @@
     </div>
 </div>
 
+@foreach (var review in Model.Reviews)
+{
+    <p>@review.UserId</p>
+    <p>@review.Text</p>
+}
+
+
 <p>Recenzje</p>
+<table cellpadding="20">
+    <tr>
+        <th>Kolumna 1</th>
+        <th>Kolumna 2</th>
+    </tr>
+    <tr>
+        <td>Nazwa użytkownika</td>
+        <td>Treść recenzji</td>
+    </tr>
+    <tr>
+        <td>Nazwa użytkownika</td>
+        <td>Treść recenzji</td>
+    </tr>
+</table>

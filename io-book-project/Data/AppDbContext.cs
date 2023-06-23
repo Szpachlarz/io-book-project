@@ -33,6 +33,16 @@ namespace io_book_project.Data
                 .WithMany(ba => ba.BookCategories)
                 .HasForeignKey(bi => bi.CategoryId);
 
+            modelBuilder.Entity<UserFavourite>()
+                .HasOne(b => b.Book)
+                .WithMany(ba => ba.UserFavourites)
+                .HasForeignKey(bi => bi.BookId);
+
+            modelBuilder.Entity<UserFavourite>()
+                .HasOne(b => b.User)
+                .WithMany(ba => ba.UserFavourites)
+                .HasForeignKey(bi => bi.UserId);
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -43,6 +53,7 @@ namespace io_book_project.Data
         public DbSet<Review> Reviews { get; set; }
         public DbSet<BookAuthor> BookAuthors { get; set; }
         public DbSet<BookCategory> BookCategories { get; set; }
+        public DbSet<UserFavourite> UserFavourites { get; set; }
 
     }
 }

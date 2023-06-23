@@ -6,6 +6,9 @@ namespace io_book_project.Interfaces
     {
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> GetUserById(string id);
+        Task<IEnumerable<Book>> GetAllFavourites(string id);
+        Task<IEnumerable<Book>> GetAFewFavourites(string id);
+        bool AddFavourite(UserFavourite favourite);
         bool Add(User user);
         bool Update(User user);
         bool Delete(User user);
