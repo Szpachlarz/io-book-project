@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Dynamic;
+using System.Security.Policy;
 
 namespace io_book_project.Controllers
 {
@@ -57,12 +58,13 @@ namespace io_book_project.Controllers
             var authors = await _authorRepository.GetAuthorNames(id);
             var categories = await _categoryRepository.GetCategoryNames(id);
             var publisher = await _publisherRepository.GetByBookId(id);
+            //var publisher = await _publisherRepository.GetByBookId(id);
             var bookVM = new BookPageViewModel
             {
                 Title = book.Title,
                 CoverImagePath = book.CoverImagePath,
                 Authors = authors,
-                Publisher = publisher.Name,
+                Publisher = publisher,
                 Language = book.Language,
                 OriginalLanguage = book.OriginalLanguage,
                 Translation = book.Translation,
@@ -98,7 +100,17 @@ namespace io_book_project.Controllers
         public async Task<IActionResult> PublishersPage(int id)
         {
 
-            return View();
+            var publisher = await _publisherRepository.GetByIdAsync(id);
+            if (publisher == null) return View("Error");
+
+            var publisherVM = new PublishersPageViewModel
+            {
+                Name = publisher.Name,
+                Country=publisher.Country,
+                City=publisher.City,   
+
+            };
+            return View(publisherVM);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
