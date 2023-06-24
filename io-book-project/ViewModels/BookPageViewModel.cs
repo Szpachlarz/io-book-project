@@ -30,7 +30,7 @@ namespace io_book_project.ViewModels
         public IEnumerable<Author> Authors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
-        public string Publisher { get; set; }
+        public Publisher Publisher { get; set; }
         public User User { get; set; }
         public IEnumerable<User> UserReviews { get; set; }
     }
