@@ -48,8 +48,19 @@
                     }
                 </p>
                 <br/>
-                <h5>Dane szczegółowe:</h5>
-                <p>Wydawnictwo: <a href="#">@Model.Publisher</a></p>
+                <h5>Dane szczegółowe:</h5>               
+                
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="PublishersPage" asp-route-id="@Model.Publisher.Id">
+                            <p>Wydawnictwo: @Model.Publisher.Name</p>
+                            </a>
+                        </li>
+                    </ul>
+               
+
+
+
                 <p>Język: @Model.Language</p> 
                 @if (@Model.OriginalLanguage != null && Model.OriginalLanguage != "")
                 {
@@ -60,9 +71,11 @@
                     <p>Język oryginału: @Model.Translation</p>
                 }
                 <p>Liczba stron: @Model.PageCount</p>
+
                 <p>Rok wydania: @Model.PublicationYear.ToString("yyyy")</p>
 
                 <p>Rok pierwszego wydania: @Model.FirstPublicationYear</p>
+                
                
                 <p>ISBN: @Model.ISBN</p>
 

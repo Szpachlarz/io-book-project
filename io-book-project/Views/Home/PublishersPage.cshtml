@@ -1,4 +1,5 @@
-﻿@model Publisher
+﻿@using io_book_project.ViewModels
+@model PublishersPageViewModel
 @{
     ViewData["Title"] = "Publishers Page";
 }
@@ -7,12 +8,9 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12 text-left ps-5">
-                <h3>Nazwa wydawnictwa</h3>
-                <p>KornBag</p>
-                <h3>Kraj</h3>
-                <p>Polska</p>
-                <h3>Miasto</h3>
-                <p>Katowice</p>
+                <h3>@Model.Name</h3>
+                <h4>@Model.City, @Model.Country</h4>
+
             </div>
         </div>
     </div>

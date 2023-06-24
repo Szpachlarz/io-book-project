@@ -84,7 +84,7 @@ namespace io_book_project.Controllers
                 Title = book.Title,
                 CoverImagePath = book.CoverImagePath,
                 Authors = authors,
-                Publisher = publisher.Name,
+                Publisher = publisher,
                 Language = book.Language,
                 OriginalLanguage = book.OriginalLanguage,
                 Translation = book.Translation,
@@ -100,17 +100,39 @@ namespace io_book_project.Controllers
             };
             return View(bookVM);
         }
-
+        [HttpGet]
         public async Task<IActionResult> AuthorsPage(int id)
         {
+
+            var author = await _authorRepository.GetByIdAsync(id);
+            if (author == null) return View("Error");
             
-            return View();
+            var authorVM = new AuthorsPageViewModel
+            {
+                Names = author.Names,
+                Surname = author.Surname,
+                Nationality = author.Nationality,
+                DateOfBirth = author.DateOfBirth,
+                DateOfDeath = author.DateOfDeath,
+                
+            };
+            return View(authorVM);
         }
 
         public async Task<IActionResult> PublishersPage(int id)
         {
 
-            return View();
+            var publisher = await _publisherRepository.GetByIdAsync(id);
+            if (publisher == null) return View("Error");
+
+            var publisherVM = new PublishersPageViewModel
+            {
+                Name = publisher.Name,
+                Country=publisher.Country,
+                City=publisher.City,   
+
+            };
+            return View(publisherVM);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
