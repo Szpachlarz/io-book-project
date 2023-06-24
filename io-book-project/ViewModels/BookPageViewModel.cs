@@ -31,10 +31,7 @@ namespace io_book_project.ViewModels
         public IEnumerable<Category> Categories { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
         public string Publisher { get; set; }
-        //public int ReviewId { get; set; }
-        //public int BookId { get; set; }
-        //public string UserId { get; set; }
-        //public User User { get; set; }
-        //public string Text { get; set; }
+        public User User { get; set; }
+        public IEnumerable<User> UserReviews { get; set; }
     }
 }

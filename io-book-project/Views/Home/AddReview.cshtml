@@ -1,0 +1,41 @@
+﻿@using io_book_project.ViewModels
+@using Microsoft.AspNetCore.Authorization
+@inject IAuthorizationService AuthorizationService
+@model AddReviewViewModel
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Add Review";
+}
+
+<style>
+    .custom-padding {
+        padding-top: 20px;
+    }
+</style>
+
+<h1 class="text-muted px-2">Napisz recenzję książki: @ViewBag.bookTitle</h1>
+<form method="post" autocomplete="off" asp-controller="Home" asp-action="AddReview">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 offset-md-1">
+                <textarea class="form-control custom-textarea" asp-for="Text" rows="25"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 offset-md-1">
+            <select asp-for="Rating">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+            </select>
+        </div>
+        @ViewBag.Id
+        <div class="col-md-4 offset-md-1 custom-padding float-end">
+            <button type="submit" asp-route-id="@ViewBag.bookId" class="btn btn-primary btn-lg float-end" name="sendreview">Dodaj</button>
+        </div>
+    </div>
+</form>

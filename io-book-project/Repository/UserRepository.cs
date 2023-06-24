@@ -61,6 +61,11 @@ namespace io_book_project.Repository
             return await _context.Users.FindAsync(id);
         }
 
+        public async Task<User> GetUserByName(string name)
+        {
+            return await _context.Users.FirstOrDefaultAsync(i => i.UserName == name);
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -71,6 +76,18 @@ namespace io_book_project.Repository
         {
             _context.Update(user);
             return Save();
+        }
+
+        public async Task<IEnumerable<User>> GetAllForThisBook(int bookId)
+        {
+            return await _context.Reviews
+            .Include(i => i.User)
+            .Where(i => i.BookId == bookId)
+            .Select(i => new User
+            {
+                UserName = i.User.UserName,
+            })
+            .ToListAsync();
         }
     }
 }
