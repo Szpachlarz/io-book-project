@@ -38,8 +38,8 @@
                 <div class="col-10">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <select asp-for="AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author" list="list-author" autocomplete="off" placeholder="a" name="author[]">
-                                <option value="" disabled selected hidden>Wybierz autora</option>
+                            <select asp-for="AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author" list="list-author" autocomplete="off" placeholder="a" name="AuthorId">
+
                             </select>
                             <label for="AuthorId">Autor</label>
                         </div>
@@ -177,7 +177,7 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control" id="Category" list="list-category" autocomplete="off" placeholder="a">
+                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control" id="Category" list="list-category" autocomplete="off" placeholder="a" name="CategoryId">
                                 <option value="" disabled selected hidden>Wybierz kategorię</option>
                             </select>
                             <label for="AuthorId">Kategoria</label>
@@ -238,5 +238,11 @@
                 }
             });
         }
+    });
+    $(document).ready(function () {
+        $('#Author').select2();
+    });
+    $(document).ready(function () {
+        $('#Category').select2();
     });
 </script>

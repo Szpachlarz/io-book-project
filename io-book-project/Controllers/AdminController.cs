@@ -12,6 +12,7 @@ using io_book_project.Interfaces;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Net;
 using static System.Reflection.Metadata.BlobBuilder;
+using System.Linq;
 
 namespace io_book_project.Controllers
 {
@@ -167,15 +168,13 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> AddBook()
         {
-            //przekopiować z indexu to zabezpieczenie admina
-
             var publishers = await _publisherRepository.GetAll();
             ViewData["Publishers"] = new SelectList((System.Collections.IEnumerable)publishers, "Id", "Name");
 
             var authors = await _authorRepository.GetAll();
             var authorList = authors.Select(a => new { Id = a.Id, FullName = $"{a.Names} {a.Surname}" }).ToList();
-            ViewData["Authors"] = new SelectList((System.Collections.IEnumerable)authorList, "Id", "FullName");
-            
+            ViewData["Authors"] = new MultiSelectList((System.Collections.IEnumerable)authorList, "Id", "FullName");
+
             var categories = await _categoryRepository.GetAll();
             ViewData["Categories"] = new SelectList((System.Collections.IEnumerable)categories, "Id", "Name");
 
@@ -202,8 +201,28 @@ namespace io_book_project.Controllers
                     Description = model.Description,
                     CoverImagePath = model.CoverImagePath,
                     PublisherId = model.PublisherId,
+                    BookAuthors = new List<BookAuthor>(),
+                    BookCategories = new List<BookCategory>()
                 };
 
+                foreach (var authorId in model.AuthorId)
+                {
+                    var bookAuthor = new BookAuthor
+                    {
+                        BookId = book.Id,
+                        AuthorId = authorId
+                    };
+                    book.BookAuthors.Add(bookAuthor);
+                }
+                foreach (var categoryId in model.CategoryId)
+                {
+                    var bookCategory = new BookCategory
+                    {
+                        BookId = book.Id,
+                        CategoryId = categoryId
+                    };
+                    book.BookCategories.Add(bookCategory);
+                }
                 _bookRepository.Add(book);
                 _bookRepository.Save();
 

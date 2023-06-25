@@ -1,4 +1,4 @@
-﻿using io_book_project.Models;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -25,16 +25,13 @@ namespace io_book_project.ViewModels
         //Publisher
         [ForeignKey("Publisher")]
         public int PublisherId { get; set; }
-        public Publisher Publisher { get; set; }
 
-        //Author
-        [ForeignKey("Author")]
-        public int AuthorId { get; set; }
-        public Author Author { get; set; }
+        //Authors
+        [Display(Name = "Autorzy")]
+        public List<int> AuthorId { get; set; }
 
         //Category
         [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public List<int> CategoryId { get; set; }
     }
 }
