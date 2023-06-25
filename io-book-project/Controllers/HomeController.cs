@@ -38,9 +38,9 @@ namespace io_book_project.Controllers
 
             IEnumerable<Book> books = await _bookRepository.GetAll();
 
-<<<<<<< HEAD
+//<<<<<<< HEAD
             const int pageSize = 9;
-=======
+//=======
             //var books = from s in await _bookRepository.GetAll()
             //            select s;
 
@@ -49,8 +49,6 @@ namespace io_book_project.Controllers
             //    books = books.Where(s => s.Title.Contains(searchString));
             //}
 
-                const int pageSize = 3;
->>>>>>> 681c17abf0340495942e293c89aa8b236a10b32b
             if(pg < 1)
                 pg = 1;
             int recsCount = books.Count();
@@ -76,11 +74,11 @@ namespace io_book_project.Controllers
             var authors = await _authorRepository.GetAuthorNames(id);
             var categories = await _categoryRepository.GetCategoryNames(id);
             var publisher = await _publisherRepository.GetByBookId(id);
-<<<<<<< HEAD
+//<<<<<<< HEAD
             //var publisher = await _publisherRepository.GetByBookId(id);
-=======
+//=======
             var reviews = await _reviewRepository.GetAllForThisBook(id);
->>>>>>> 681c17abf0340495942e293c89aa8b236a10b32b
+//>>>>>>> 681c17abf0340495942e293c89aa8b236a10b32b
             var bookVM = new BookPageViewModel
             {
                 Id = book.Id,

@@ -17,24 +17,33 @@
                 </div>
             </div>
             <div class="col-md-8 text-left ps-5">
-                <h2>@Model.Title ★★★★☆
-                    @*@if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)
+              @*  <h2>@Model.Title ★★★★☆
+                    @if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)
                     {
                         <form asp-controller="User" asp-action="AddToFavourites" asp-route-id="@Model.Id" style="display: inline;">
                             <button type="submit" class="btn btn-primary" style="background-color: blue; border: none;">
                             <i class="bi bi-suit-heart"></i>
                         </button>
                         </form>
-                    }*@
-
-                </h2>
- 
-                <h5>
-                    @foreach (var author in Model.Authors)
-                    {
-                        <a href="#"><p>@author.Names @author.Surname</p></a>
+                        
+                        
                     }
-                </h5>
+
+                </h2>*@
+ 
+                <h2>@Model.Title ★★★★☆</h2>
+
+                @foreach (var author in Model.Authors)
+                {
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AuthorsPage" asp-route-id="@author.Id">
+                                @author.Names @author.Surname
+                            </a>
+                        </li>
+                    </ul>
+                }
+
                 @if (@Model.Series != null && Model.Series!="")
                 {
                     <p>Cykl: @Model.Series</p>
@@ -46,8 +55,8 @@
                     }
                 </p>
                 <br/>
-                <h5>Dane szczegółowe:</h5>               
-                
+                <h5>Dane szczegółowe:</h5>
+
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="PublishersPage" asp-route-id="@Model.Publisher.Id">

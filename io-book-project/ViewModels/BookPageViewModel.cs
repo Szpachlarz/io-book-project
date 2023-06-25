@@ -29,7 +29,7 @@ namespace io_book_project.ViewModels
         public string? CoverImagePath { get; set; }
         public IEnumerable<Author> Authors { get; set; }
         public IEnumerable<Category> Categories { get; set; }
-        public string Publisher { get; set; }
+        public Publisher Publisher { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
     }
 }
