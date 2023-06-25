@@ -73,7 +73,7 @@ namespace io_book_project.Data
                             OriginalTitle = null,
                             ISBN = 1234567890123,
                             PublicationYear = DateTime.Parse("1970-01-01"),
-                            FirstPublicationYear = null,
+                            FirstPublicationYear = DateTime.Parse("1970-01-01"),
                             Language = "polski",
                             OriginalLanguage = null,
                             Translation = null,
