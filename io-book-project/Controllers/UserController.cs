@@ -2,10 +2,12 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using io_book_project.Repository;
+using io_book_project.Utils;
 using io_book_project.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.Security.Claims;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -17,19 +19,22 @@ namespace io_book_project.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IBookRepository _bookRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<User> _userManager;
-        public UserController(ILogger<HomeController> logger, IBookRepository bookRepository, IUserRepository userRepository, UserManager<User> userManager)
+        public UserController(ILogger<HomeController> logger, IBookRepository bookRepository, IUserRepository userRepository, IReviewRepository reviewRepository, UserManager<User> userManager)
         {
             _logger = logger;
             _bookRepository = bookRepository;
             _userRepository = userRepository;
             _userManager = userManager;
+            _reviewRepository = reviewRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var favourites = await _userRepository.GetAFewFavourites(userId);
+            var reviews = await _reviewRepository.GetAFewReviews(userId);
             //foreach (var book in favourites)
             //{
             //    int id = book.Id;
@@ -39,6 +44,7 @@ namespace io_book_project.Controllers
             var userVM = new UserPageViewModel
             {
                 FavouriteBooks = favourites,
+                Reviews = reviews
             };
             return View(userVM);
         }
@@ -53,25 +59,16 @@ namespace io_book_project.Controllers
             };
             return View(favouriteVM);
         }
-        [Authorize]
-        public async Task<IActionResult> AddToFavourites(int bookId)
+        [HttpGet]
+        public async Task <IActionResult> ReviewsList()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var favourite = new UserFavourite
+            var reviews = await _reviewRepository.GetAllReviews(userId);
+            var reviewsVM = new UserReviewsViewModel
             {
-                UserId = userId,
-                BookId = bookId
+                Reviews = reviews,
             };
-
-            _userRepository.AddFavourite(favourite);
-            _userRepository.Save();
-            
-            return View(favourite);
-        }
-        public IActionResult ReviewsList()
-        {
-            return View();
+            return View(reviewsVM);
         }
     }
 }

@@ -43,6 +43,25 @@ namespace io_book_project.Repository
             return await _context.Reviews.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<IEnumerable<Review>> GetAllReviews(string userId)
+        {
+            return await _context.Reviews
+                .Include(i => i.Book)
+                .Where(i => i.UserId == userId)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Review>> GetAFewReviews(string userId)
+        {
+            return await _context.Reviews
+                .Include(i => i.Book)
+                .Where(i => i.UserId == userId)
+                .Take(5)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

@@ -1,3 +1,23 @@
-﻿@{
+﻿@using io_book_project.ViewModels
+@model UserReviewsViewModel
+@{
     ViewData["Title"] = "Reviews list";
+}
+
+<div class="text-left ps-5">
+    <h1 class="display-4">Recenzje użytkownika @User.Identity.Name</h1>
+</div>
+
+@foreach (var review in Model.Reviews)
+{
+    <blockquote class="blockquote">
+        <p>
+            @review.Text
+        </p>
+    </blockquote>
+    <figcaption class="blockquote-footer">
+        <a asp-controller="Home" asp-action="BookPage" asp-route-id="@review.BookId">
+            <cite title="@review.Book.Title">@review.Book.Title</cite>
+        </a>
+    </figcaption>
 }
