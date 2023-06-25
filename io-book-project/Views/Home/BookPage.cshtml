@@ -19,15 +19,23 @@
                 </div>
             </div>
             <div class="col-md-8 text-left ps-5">
-                <h2>@Model.Title ★★★★☆
-                    @*@if ((await AuthorizationService.AuthorizeAsync(User, "PolicyName")).Succeeded)
+                <h2>@Model.Title
+                    @if (Context.Session.GetString(Const.LOGGED_USER) != null)
                     {
-                        <form asp-controller="User" asp-action="AddToFavourites" asp-route-id="@Model.Id" style="display: inline;">
-                            <button type="submit" class="btn btn-primary" style="background-color: blue; border: none;">
-                            <i class="bi bi-suit-heart"></i>
-                        </button>
-                        </form>
-                    }*@
+                        if(Model.AlreadyFavourite == false)
+                        {
+                            <a asp-controller="Home" asp-action="AddToFavourites" asp-route-id="@Model.Id" class="btn btn-primary" style="background-color: blue; border: none;">
+                                <i class="bi bi-suit-heart"></i>
+                            </a>
+                        }
+                        else
+                        {
+                            <a asp-controller="Home" asp-action="RemoveFromFavourites" asp-route-id="@Model.Id" class="btn btn-primary" style="background-color: blue; border: none;">
+                                <i class="bi bi-heart-fill"></i>
+                            </a>
+                        }
+
+                    }
 
                 </h2>
  
@@ -57,9 +65,6 @@
                             </a>
                         </li>
                     </ul>
-               
-
-
 
                 <p>Język: @Model.Language</p> 
                 @if (@Model.OriginalLanguage != null && Model.OriginalLanguage != "")

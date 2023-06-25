@@ -33,5 +33,6 @@ namespace io_book_project.ViewModels
         public Publisher Publisher { get; set; }
         public User User { get; set; }
         public IEnumerable<User> UserReviews { get; set; }
+        public bool AlreadyFavourite { get; set; }
     }
 }
