@@ -2,6 +2,7 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Net;
 
 namespace io_book_project.Repository
@@ -24,7 +25,6 @@ namespace io_book_project.Repository
         {
             throw new NotImplementedException();
         }
-
         public async Task<IEnumerable<Book>> GetAllFavourites(string userId)
         {
             return await _context.Books
@@ -44,10 +44,22 @@ namespace io_book_project.Repository
                 .AsNoTracking()
                 .ToListAsync();
         }
-
+        public bool CheckIfItIsAlreadyFavourite(string userId, int bookId)
+        {
+            return _context.UserFavourites.Any(i => i.BookId == bookId && i.UserId == userId);
+        }
         public bool AddFavourite(UserFavourite userFavourite)
         {
             _context.Add(userFavourite);
+            return Save();
+        }
+        public bool RemoveFavourite(string userId, int bookId)
+        {
+            var itemToRemove = _context.UserFavourites.FirstOrDefault(i => i.BookId == bookId && i.UserId == userId);
+            if (itemToRemove != null)
+            {
+                _context.Remove(itemToRemove);
+            }
             return Save();
         }
 
@@ -61,6 +73,11 @@ namespace io_book_project.Repository
             return await _context.Users.FindAsync(id);
         }
 
+        public async Task<User> GetUserByName(string name)
+        {
+            return await _context.Users.FirstOrDefaultAsync(i => i.UserName == name);
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -71,6 +88,18 @@ namespace io_book_project.Repository
         {
             _context.Update(user);
             return Save();
+        }
+
+        public async Task<IEnumerable<User>> GetAllForThisBook(int bookId)
+        {
+            return await _context.Reviews
+            .Include(i => i.User)
+            .Where(i => i.BookId == bookId)
+            .Select(i => new User
+            {
+                UserName = i.User.UserName,
+            })
+            .ToListAsync();
         }
     }
 }

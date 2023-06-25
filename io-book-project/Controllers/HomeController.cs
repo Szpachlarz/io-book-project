@@ -8,7 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Dynamic;
-using System.Security.Policy;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
+using io_book_project.Utils;
 
 namespace io_book_project.Controllers
 {
@@ -20,7 +22,8 @@ namespace io_book_project.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IReviewRepository _reviewRepository;
-        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository)
+        private readonly IUserRepository _userRepository;
+        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository, IUserRepository userRepository)
         {
             _logger = logger;
             _bookRepository = bookRepository;
@@ -28,6 +31,7 @@ namespace io_book_project.Controllers
             _publisherRepository = publisherRepository;
             _categoryRepository = categoryRepository;
             _reviewRepository = reviewRepository;
+            _userRepository = userRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Index(int pg=1)
@@ -38,9 +42,6 @@ namespace io_book_project.Controllers
 
             IEnumerable<Book> books = await _bookRepository.GetAll();
 
-//<<<<<<< HEAD
-            const int pageSize = 9;
-//=======
             //var books = from s in await _bookRepository.GetAll()
             //            select s;
 
@@ -49,6 +50,7 @@ namespace io_book_project.Controllers
             //    books = books.Where(s => s.Title.Contains(searchString));
             //}
 
+                const int pageSize = 3;
             if(pg < 1)
                 pg = 1;
             int recsCount = books.Count();
@@ -74,11 +76,16 @@ namespace io_book_project.Controllers
             var authors = await _authorRepository.GetAuthorNames(id);
             var categories = await _categoryRepository.GetCategoryNames(id);
             var publisher = await _publisherRepository.GetByBookId(id);
-//<<<<<<< HEAD
-            //var publisher = await _publisherRepository.GetByBookId(id);
-//=======
             var reviews = await _reviewRepository.GetAllForThisBook(id);
-//>>>>>>> 681c17abf0340495942e293c89aa8b236a10b32b
+            var userReviews = await _userRepository.GetAllForThisBook(id);
+            bool alreadyFavourite = false;
+            
+            if (HttpContext.Session.GetString(Const.LOGGED_USER) != null)
+            {
+                var userId = HttpContext.Session.GetString(Const.USER_ID);
+                alreadyFavourite = _userRepository.CheckIfItIsAlreadyFavourite(userId, book.Id);
+
+            }
             var bookVM = new BookPageViewModel
             {
                 Id = book.Id,
@@ -96,7 +103,9 @@ namespace io_book_project.Controllers
                 ISBN=book.ISBN,
                 PageCount=book.PageCount,
                 Categories = categories,
-                Reviews = reviews
+                Reviews = reviews,
+                UserReviews = userReviews,
+                AlreadyFavourite = alreadyFavourite,
             };
             return View(bookVM);
         }
@@ -121,7 +130,6 @@ namespace io_book_project.Controllers
 
         public async Task<IActionResult> PublishersPage(int id)
         {
-
             var publisher = await _publisherRepository.GetByIdAsync(id);
             if (publisher == null) return View("Error");
 
@@ -139,6 +147,71 @@ namespace io_book_project.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AddReview(int id)
+        {
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return View("Error");
+            ViewBag.bookTitle=book.Title;
+            ViewBag.bookId = id;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddReview(AddReviewViewModel model, int id)
+        {
+            if(ModelState.IsValid)
+            {
+                string loggedUser = HttpContext.Session.GetString(Const.LOGGED_USER);
+                var user = await _userRepository.GetUserByName(loggedUser);
+                var review = new Review
+                {
+                    Text = model.Text,
+                    UserId = user.Id,
+                    BookId = id,
+                    Rating = model.Rating,
+                    CreatedAt = DateTime.Now
+                };
+
+                _reviewRepository.Add(review);
+                _reviewRepository.Save();
+                return RedirectToAction($"BookPage", "Home", new {id});
+            }
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return View("Error");
+            ViewBag.Title = book.Title;
+            ViewBag.BookId = book.Id;
+            return View();
+        }
+        public async Task<IActionResult> AddToFavourites(int id)
+        {
+            //var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = HttpContext.Session.GetString(Const.USER_ID);
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return View("Error");
+
+            var favourite = new UserFavourite
+            {
+                UserId = userId,
+                BookId = book.Id
+            };
+
+            _userRepository.AddFavourite(favourite);
+            _userRepository.Save();
+
+            return RedirectToAction($"BookPage", "Home", new {id});
+        }
+        public async Task<IActionResult> RemoveFromFavourites(int id)
+        {
+            var userId = HttpContext.Session.GetString(Const.USER_ID);
+            var book = await _bookRepository.GetByIdAsync(id);
+
+            _userRepository.RemoveFavourite(userId, book.Id);
+            _userRepository.Save();
+
+            return RedirectToAction($"BookPage", "Home", new { id });
         }
     }
 }

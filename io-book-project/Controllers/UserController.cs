@@ -2,10 +2,12 @@
 using io_book_project.Interfaces;
 using io_book_project.Models;
 using io_book_project.Repository;
+using io_book_project.Utils;
 using io_book_project.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System.Reflection;
 using System.Security.Claims;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -53,22 +55,7 @@ namespace io_book_project.Controllers
             };
             return View(favouriteVM);
         }
-        [Authorize]
-        public async Task<IActionResult> AddToFavourites(int bookId)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var favourite = new UserFavourite
-            {
-                UserId = userId,
-                BookId = bookId
-            };
-
-            _userRepository.AddFavourite(favourite);
-            _userRepository.Save();
-            
-            return View(favourite);
-        }
         public IActionResult ReviewsList()
         {
             return View();

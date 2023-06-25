@@ -44,6 +44,7 @@ namespace io_book_project.Controllers
                     {
                         var role = await _userManager.GetRolesAsync(user);
                         HttpContext.Session.SetString(Utils.Const.LOGGED_USER, user.UserName);
+                        HttpContext.Session.SetString(Utils.Const.USER_ID, user.Id);
                         HttpContext.Session.SetString(Utils.Const.USER_ROLE, role[0]);
                         if (role[0]=="admin")
                         {
