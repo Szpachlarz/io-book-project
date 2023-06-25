@@ -14,17 +14,11 @@
             <div class="col-md-6 text-left ps-5">
                 <h2>Moje ulubione książki</h2>
                 <br>
-                @*<h3>Ostatnia książka</h3>
-                <p>nik</p>
-                <h3>Przedostatnia książka</h3>
-                <p>kor</p>
-                <h3>Trzecia ostatnia książka</h3>
-                <p>Si</p>*@
                 @foreach (var book in Model.FavouriteBooks)
                 {
                     <p>
                         <a asp-controller="Home" asp-action="BookPage" asp-route-id="@book.Id">
-                        @book.Title
+                            @book.Title
                         </a>
                     </p>
                 }
@@ -36,12 +30,28 @@
             <div class="col-md-6 text-left ps-5">
                 <h2>Moje recenzje</h2>
                 <br>
-                <h3>Ostatnia recenzja</h3>
-                <p>Lorem</p>
-                <h3>Przedostatnia recenzja</h3>
-                <p>Ipsum</p>
-                <h3>Trzecia ostatnia recenzja</h3>
-                <p>yśyś</p>
+                @foreach (var review in Model.Reviews)
+                {
+                    <blockquote class="blockquote">
+                        <p>
+                            @{
+                                string truncatedText = review.Text;
+                                if (truncatedText.Length > 200)
+                                {
+                                    int lastIndex = truncatedText.LastIndexOf(' ', 200);
+                                    truncatedText = truncatedText.Substring(0, lastIndex) + " [...]";
+                                }
+                                @truncatedText
+                            }
+                        </p>
+                    </blockquote>
+                    <figcaption class="blockquote-footer">
+                        <a asp-controller="Home" asp-action="BookPage" asp-route-id="@review.BookId">
+                            <cite title="@review.Book.Title">@review.Book.Title</cite>
+                        </a>
+                    </figcaption>
+                    
+                }
                 <a asp-area="" asp-controller="User" asp-action="ReviewsList">
                     <h3>Więcej recenzji...</h3>
                 </a>

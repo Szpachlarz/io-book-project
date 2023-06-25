@@ -2,9 +2,8 @@
 
 namespace io_book_project.ViewModels
 {
-    public class UserPageViewModel
+    public class UserReviewsViewModel
     {
-        public IEnumerable<Book> FavouriteBooks { get; set; }
         public IEnumerable<Review> Reviews { get; set; }
     }
 }
