@@ -24,18 +24,54 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-4 offset-md-1">
-            <select asp-for="Rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
+        <input type="hidden" asp-for="Rating" id="saveRating">
+        <div id="rating" class="d-flex py-2" onmouseleave="resetRating()">
         </div>
-        @ViewBag.Id
         <div class="col-md-4 offset-md-1 custom-padding float-end">
             <button type="submit" asp-route-id="@ViewBag.bookId" class="btn btn-primary btn-lg float-end" name="sendreview">Dodaj</button>
         </div>
     </div>
 </form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        updateRating(1)
+        });
+
+    let globalRating = 1
+    let gHoverRating = 0
+
+    function updateRating(rating){
+        let html = ''
+
+        for (let i = 1; i <= 5; i++) {
+            let icon = "bi bi-star"
+            if (rating>=i)
+                icon = "bi bi-star-fill"
+            html += `<div onclick="savedRating(`+i+`)" onmouseenter="hoverRating(`+i+`)">
+                        <i class="`+icon+` px-1 fs-2 text-warning"></i>
+                    </div>`
+        }
+
+        document.getElementById('rating').innerHTML = html
+        document.getElementById('saveRating').value = globalRating
+        }
+
+        function hoverRating(rating){
+            if (rating !== gHoverRating){
+                gHoverRating = rating
+                updateRating(rating)
+            }
+        }
+
+        function savedRating(rating){
+            globalRating = rating
+            updateRating(rating)
+        }
+
+        function resetRating(){
+            gHoverRating = 0
+            updateRating(globalRating)
+        }
+
+</script>

@@ -156,8 +156,8 @@ namespace io_book_project.Controllers
         {
             if(ModelState.IsValid)
             {
-                string Klaudia = HttpContext.Session.GetString(Const.LOGGED_USER);
-                var user = await _userRepository.GetUserByName(Klaudia);
+                string loggedUser = HttpContext.Session.GetString(Const.LOGGED_USER);
+                var user = await _userRepository.GetUserByName(loggedUser);
                 var review = new Review
                 {
                     Text = model.Text,
