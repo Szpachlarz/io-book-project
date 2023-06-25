@@ -9,6 +9,8 @@ namespace io_book_project.Interfaces
         Task<IEnumerable<Review>> GetAllForThisBook(int id);
 
         Task<Review?> GetByIdAsync(int id);
+        Task<IEnumerable<Review>> GetAllReviews(string userId);
+        Task<IEnumerable<Review>> GetAFewReviews(string userId);
 
         bool Add(Review review);
 

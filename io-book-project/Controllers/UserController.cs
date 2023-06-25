@@ -19,19 +19,22 @@ namespace io_book_project.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IBookRepository _bookRepository;
         private readonly IUserRepository _userRepository;
+        private readonly IReviewRepository _reviewRepository;
         private readonly UserManager<User> _userManager;
-        public UserController(ILogger<HomeController> logger, IBookRepository bookRepository, IUserRepository userRepository, UserManager<User> userManager)
+        public UserController(ILogger<HomeController> logger, IBookRepository bookRepository, IUserRepository userRepository, IReviewRepository reviewRepository, UserManager<User> userManager)
         {
             _logger = logger;
             _bookRepository = bookRepository;
             _userRepository = userRepository;
             _userManager = userManager;
+            _reviewRepository = reviewRepository;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
             var favourites = await _userRepository.GetAFewFavourites(userId);
+            var reviews = await _reviewRepository.GetAFewReviews(userId);
             //foreach (var book in favourites)
             //{
             //    int id = book.Id;
@@ -41,6 +44,7 @@ namespace io_book_project.Controllers
             var userVM = new UserPageViewModel
             {
                 FavouriteBooks = favourites,
+                Reviews = reviews
             };
             return View(userVM);
         }
@@ -55,10 +59,16 @@ namespace io_book_project.Controllers
             };
             return View(favouriteVM);
         }
-
-        public IActionResult ReviewsList()
+        [HttpGet]
+        public async Task <IActionResult> ReviewsList()
         {
-            return View();
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var reviews = await _reviewRepository.GetAllReviews(userId);
+            var reviewsVM = new UserReviewsViewModel
+            {
+                Reviews = reviews,
+            };
+            return View(reviewsVM);
         }
     }
 }
