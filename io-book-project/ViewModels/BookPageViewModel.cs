@@ -13,11 +13,9 @@ namespace io_book_project.ViewModels
         public string? OriginalTitle { get; set; }
         public double ISBN { get; set; }
 
-        // [DisplayFormat(DataFormatString = "{0:yyyy}")]
         public DateTime PublicationYear { get; set; }
 
-        // [DataType(DataType.Date)]
-        public DateTime? FirstPublicationYear { get; set; }
+        public DateTime FirstPublicationYear { get; set; }
         public string Language { get; set; }
         public string? OriginalLanguage { get; set; }
         public string? Translation { get; set; }

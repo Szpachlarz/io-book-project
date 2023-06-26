@@ -42,7 +42,18 @@
                 <h5>
                     @foreach (var author in Model.Authors)
                     {
-                        <a href="#"><p>@author.Names @author.Surname</p></a>
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="AuthorsPage" asp-route-id="@author.Id">
+                                    <p>@author.Names
+                                        @if (!string.IsNullOrEmpty(author.Surname))
+                                        {
+                                            @author.Surname
+                                        }
+                                    </p>
+                                </a>
+                            </li>
+                        </ul>
                     }
                 </h5>
                 @if (@Model.Series != null && Model.Series!="")
@@ -79,7 +90,7 @@
 
                 <p>Rok wydania: @Model.PublicationYear.ToString("yyyy")</p>
 
-                <p>Rok pierwszego wydania: @Model.FirstPublicationYear</p>
+                <p>Rok pierwszego wydania: @Model.FirstPublicationYear.ToString("yyyy")</p>
                 
                
                 <p>ISBN: @Model.ISBN</p>

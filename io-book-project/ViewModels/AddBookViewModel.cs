@@ -1,4 +1,4 @@
-﻿using io_book_project.Models;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -13,7 +13,7 @@ namespace io_book_project.ViewModels
         public string? OriginalTitle { get; set; }
         public double ISBN { get; set; }
         public DateTime PublicationYear { get; set; }
-        public DateTime? FirstPublicationYear { get; set; }
+        public DateTime FirstPublicationYear { get; set; }
         public string Language { get; set; }
         public string? OriginalLanguage { get; set; }
         public string? Translation { get; set; }
@@ -25,16 +25,13 @@ namespace io_book_project.ViewModels
         //Publisher
         [ForeignKey("Publisher")]
         public int PublisherId { get; set; }
-        public Publisher Publisher { get; set; }
 
-        //Author
-        [ForeignKey("Author")]
-        public int AuthorId { get; set; }
-        public Author Author { get; set; }
+        //Authors
+        [Display(Name = "Autorzy")]
+        public List<int> AuthorId { get; set; }
 
         //Category
         [ForeignKey("Category")]
-        public int CategoryId { get; set; }
-        public Category Category { get; set; }
+        public List<int> CategoryId { get; set; }
     }
 }
