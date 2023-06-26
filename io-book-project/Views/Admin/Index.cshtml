@@ -1,4 +1,6 @@
-﻿@{
+﻿@using io_book_project.ViewModels
+@model AdminIndexViewModel
+@{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
 }
@@ -10,8 +12,8 @@
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow bg-primary text-light">
                     <div class="card-body">
-                        <p class="card-tex">Łączna liczba administratorów: GDZIE</p>
-                        <a href="#" class="text-light"> Przeglądaj administraotrów </a>
+                        <p class="card-tex">Liczba książek: @Model.BookCount</p>
+                        <a asp-controller="Admin" asp-action="BookList" class="text-light"> Przeglądaj książki </a>
                     </div>
                 </div>
             </div>
@@ -19,8 +21,8 @@
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow bg-secondary text-light">
                     <div class="card-body">
-                        <p class="card-tex">Łączna liczba użytkowników: SĄ</p>
-                        <a href="#" class="text-light"> Przeglądaj użytkowników </a>
+                        <p class="card-tex">Liczba autorów: @Model.AuthorCount</p>
+                        <a asp-controller="Admin" asp-action="AuthorList" class="text-light"> Przeglądaj autorów </a>
                     </div>
                 </div>
             </div>
@@ -28,14 +30,29 @@
             <div class="col-md-4">
                 <div class="card mb-4 box-shadow bg-success text-light">
                     <div class="card-body">
-                        <p class="card-tex">Łączna liczba książek?: BAZY</p>
-                        <a href="#" class="text-light"> Przeglądaj książki, czy coś </a>
+                        <p class="card-tex">Liczba wydawnictw: @Model.PublisherCount</p>
+                        <a asp-controller="Admin" asp-action="PublisherList" class="text-light"> Przeglądaj wydawnictwa </a>
                     </div>
                 </div>
             </div>
 
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow bg-primary text-light">
+                    <div class="card-body">
+                        <p class="card-tex">Liczba kategorii: @Model.CategoryCount</p>
+                        <a asp-controller="Admin" asp-action="CategoryList" class="text-light"> Przeglądaj kategorie </a>
+                    </div>
+                </div>
+            </div>
 
-
+            <div class="col-md-4">
+                <div class="card mb-4 box-shadow bg-secondary text-light">
+                    <div class="card-body">
+                        <p class="card-tex">Liczba użytkowników: @Model.UserCount</p>
+                        <a asp-controller="Admin" asp-action="AuthorList" class="text-light"> Przeglądaj użytkowników </a>
+                    </div>
+                </div>
+            </div>
 
         </div>
     </div>

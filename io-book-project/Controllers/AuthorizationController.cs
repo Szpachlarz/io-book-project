@@ -46,6 +46,7 @@ namespace io_book_project.Controllers
                         HttpContext.Session.SetString(Utils.Const.LOGGED_USER, user.UserName);
                         HttpContext.Session.SetString(Utils.Const.USER_ID, user.Id);
                         HttpContext.Session.SetString(Utils.Const.USER_ROLE, role[0]);
+                        HttpContext.Session.SetInt32(Utils.Const.USER_STATUS, user.Status);
                         if (role[0]=="admin")
                         {
                             return RedirectToAction("Index", "Admin");                            

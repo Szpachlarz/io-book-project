@@ -135,7 +135,7 @@
             <p>Brak recenzji do wyświetlenia</p>
         }
     </div>
-    @if (Context.Session.GetString(Const.LOGGED_USER) != null)
+    @if (Context.Session.GetString(Const.LOGGED_USER) != null && Context.Session.GetInt32(Const.USER_STATUS) != 1)
     {
         <div class="col md-4">
             <a asp-action="AddReview" asp-route-id="@Model.Id" class="btn btn-info" style="margin-right: 20px;">Napisz własną recenzję</a>

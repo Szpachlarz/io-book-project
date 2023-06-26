@@ -22,21 +22,40 @@ namespace io_book_project.Controllers
         private readonly IPublisherRepository _publisherRepository;
         private readonly IAuthorRepository _authorRepository;
         private readonly ICategoryRepository _categoryRepository;
-        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository)
+        private readonly IUserRepository _userRepository;
+        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository, IUserRepository userRepository)
         {
             _context = context;
             _bookRepository = bookRepository;
             _publisherRepository = publisherRepository;
             _authorRepository = authorRepository;
             _categoryRepository = categoryRepository;
+            _userRepository = userRepository;
         }
-        public IActionResult Index()
+        [HttpGet]
+        public async Task <IActionResult> Index()
         {
             if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
             {
                 return RedirectToAction("Index", "Home");
             }
-            return View();
+
+            var bookCount = await _bookRepository.GetCountAsync();
+            var authorCount = await _authorRepository.GetCountAsync();
+            var publisherCount = await _publisherRepository.GetCountAsync();
+            var categoryCount = await _categoryRepository.GetCountAsync();
+            var userCount = await _userRepository.GetCountAsync();
+
+            var adminIndex = new AdminIndexViewModel
+            {
+                BookCount = bookCount,
+                AuthorCount = authorCount,
+                PublisherCount = publisherCount,
+                CategoryCount = categoryCount,
+                UserCount = userCount
+            };
+
+            return View(adminIndex);
         }
 
         [HttpGet]
@@ -218,14 +237,14 @@ namespace io_book_project.Controllers
             try
             {
                 var books = await _bookRepository.GetAll();
-                const int pageSize = 5;
-                if (pg < 1)
-                    pg = 1;
-                int recsCount = books.Count();
-                var pager = new Pager(recsCount, pg, pageSize);
-                int recSkip = (pg - 1) * pageSize;
-                var data = books.Skip(recSkip).Take(pager.PageSize).ToList();
-                this.ViewBag.Pager = pager;
+                //const int pageSize = 5;
+                //if (pg < 1)
+                //    pg = 1;
+                //int recsCount = books.Count();
+                //var pager = new Pager(recsCount, pg, pageSize);
+                //int recSkip = (pg - 1) * pageSize;
+                //var data = books.Skip(recSkip).Take(pager.PageSize).ToList();
+                //this.ViewBag.Pager = pager;
                 List<List<Author>> authors = new List<List<Author>>();
                 foreach (var book in books) 
                 {
@@ -236,9 +255,9 @@ namespace io_book_project.Controllers
 
                 var bookListVM = new BookListViewModel
                 {
-                    Books = data,
+                    Books = books,
                     Authors = authors,
-                    Data = data,
+                    //Data = data,
                 };
                 return View(bookListVM);
             }
@@ -493,6 +512,34 @@ namespace io_book_project.Controllers
                 throw;
             }
             return View();
+        }
+        [HttpGet]
+        public async Task<IActionResult> UserList(int pg=1)
+        {
+            var users = await _userRepository.GetAllUsers();
+            const int pageSize = 10;
+            if (pg < 1)
+                pg = 1;
+            int recsCount = users.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = users.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+
+            //return View(authors);
+            return View(data);
+        }
+        [HttpPost]
+        public IActionResult UserBan(string id)
+        {
+            _userRepository.UserBan(id);
+            return RedirectToAction("UserList", "Admin");
+        }
+        [HttpPost]
+        public IActionResult UserUnban(string id)
+        {
+            _userRepository.UserUnban(id);
+            return RedirectToAction("UserList", "Admin");
         }
     }
 }
