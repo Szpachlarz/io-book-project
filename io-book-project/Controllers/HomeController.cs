@@ -112,9 +112,9 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> AuthorsPage(int id)
         {
-
             var author = await _authorRepository.GetByIdAsync(id);
             if (author == null) return View("Error");
+            var books = await _bookRepository.GetByAuthorId(id);
             
             var authorVM = new AuthorsPageViewModel
             {
@@ -123,7 +123,7 @@ namespace io_book_project.Controllers
                 Nationality = author.Nationality,
                 DateOfBirth = author.DateOfBirth,
                 DateOfDeath = author.DateOfDeath,
-                
+                Books = books,
             };
             return View(authorVM);
         }
@@ -132,12 +132,14 @@ namespace io_book_project.Controllers
         {
             var publisher = await _publisherRepository.GetByIdAsync(id);
             if (publisher == null) return View("Error");
+            var books = await _bookRepository.GetByPublisherId(id);
 
             var publisherVM = new PublishersPageViewModel
             {
                 Name = publisher.Name,
-                Country=publisher.Country,
-                City=publisher.City,   
+                Country = publisher.Country,
+                City = publisher.City,
+                Books = books,
 
             };
             return View(publisherVM);

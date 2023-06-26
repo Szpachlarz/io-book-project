@@ -10,7 +10,29 @@
             <div class="col-md-12 text-left ps-5">
                 <h3>@Model.Name</h3>
                 <h4>@Model.City, @Model.Country</h4>
-
+            </div>
+        </div>
+    </div>
+    <div class="album py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-left ps-5">
+                    <h4>Książki wydane przez wydawnictwo:</h4>
+                    <h5>
+                        @foreach (var book in Model.Books)
+                        {
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@book.Id">
+                                        <p>
+                                            @book.Title
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    </h5>
+                </div>
             </div>
         </div>
     </div>

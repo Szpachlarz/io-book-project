@@ -7,7 +7,7 @@
 <div class="album py-5">
     <div class="container">
         <div class="row">
-            <div class="col-md-6 text-left ps-5"> 
+            <div class="col-md-12 text-left ps-5"> 
                 <h3>@Model.Names @Model.Surname</h3>
                 <p>Data urodzenia: @Model.DateOfBirth</p>
                 @if (Model.DateOfDeath != null && Model.DateOfDeath != "")
@@ -15,33 +15,29 @@
                     <p>Data śmierci: @Model.DateOfDeath</p>
                 }
                 <p>Narodowość: @Model.Nationality</p>
-
-                <h3>Coś jeszcze</h3>
-                <p>ciuf ciuf</p>
-                Me gusta tocar guitarra </br>
-                me gusta cantar el son </br>
-                Mariachi me acompañan </br>
-                cuando canto mi canción </br>
-                </br></br>
-                Me gusta tomar mis copas </br>
-                aguardiente es lo mejor </br>
-                También el tequila </br>
-                blanco con su sal de la sabor </br>
-                </br></br>
-                Ay ay ay ay </br>
-                ay mi amor </br>
-                Ay mi morena </br>
-                de mi corazón</br>
-            </div>
-            <div class="col-md-6 text-center">
-                <h4>Liczba napisanych książek</h4>
-                <p>404</p>
-                <h4>Ogólna ocena książek</h4>
-                <p>2,8</p>
-                <h4>Najwyżej oceniana książka:</h4>
-                <p>yśyś ciuf, 3,5</p>
-            </div>
         </div>
     </div>
 </div>
-<p>Lista książek autora</p>
+    <div class="album py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 text-left ps-5">
+                    <h4>Książki wydane przez autora:</h4>
+                    <h5>
+                        @foreach (var book in Model.Books)
+                        {
+                            <ul class="navbar-nav ms-auto">
+                                <li class="nav-item">
+                                    <a class="nav-link text-black" asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@book.Id">
+                                        <p>
+                                            @book.Title
+                                        </p>
+                                    </a>
+                                </li>
+                            </ul>
+                        }
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </div>

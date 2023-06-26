@@ -131,9 +131,5 @@ namespace io_book_project.Repository
             }
             return Save();
         }
-        public bool CheckIfBanned(string userId)
-        {
-            return _context.Users.Any(i => i.Id == userId && (int)i.Status == 1);
-        }
     }
 }

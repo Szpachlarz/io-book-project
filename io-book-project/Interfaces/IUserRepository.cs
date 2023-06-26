@@ -21,6 +21,5 @@ namespace io_book_project.Interfaces
         bool Save();
         bool UserBan(string userId);
         bool UserUnban(string userId);
-        bool CheckIfBanned(string userId);
     }
 }

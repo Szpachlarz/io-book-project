@@ -35,6 +35,25 @@ namespace io_book_project.Repository
             return await _context.Books.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<IEnumerable<Book>> GetByPublisherId(int pubId)
+        {
+            return await _context.Books
+                .Include(i=> i.Publisher)
+                .Where(i => i.PublisherId == pubId)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetByAuthorId(int authorId)
+        {
+            return await _context.Books
+                .Include(i => i.BookAuthors)
+                .ThenInclude(i=>i.Author)
+                .Where(i => i.BookAuthors.Any(ba => ba.AuthorId == authorId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

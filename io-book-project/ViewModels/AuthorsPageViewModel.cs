@@ -15,6 +15,6 @@ namespace io_book_project.ViewModels
         public string? DateOfDeath { get; set; }
 
         //Authors
-        public List<BookAuthor> BookAuthors { get; set; }
+        public IEnumerable<Book> Books { get; set; }
     }
 }
