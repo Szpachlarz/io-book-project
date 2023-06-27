@@ -35,6 +35,11 @@ namespace io_book_project.Repository
             return await _context.Books.FirstOrDefaultAsync(i => i.Id == id);
         }
 
+        public async Task<Book?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Books.AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

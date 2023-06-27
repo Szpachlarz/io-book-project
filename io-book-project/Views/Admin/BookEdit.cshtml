@@ -1,17 +1,17 @@
 ﻿@using io_book_project.ViewModels;
-@model AddBookViewModel
+@model Book;
 
 @{
     Layout = "_AdminLayout";
     ViewData["Title"] = "Panel administratora";
 }
 
-<h1 class="text-muted px-2">Dodaj książkę</h1>
+<h1 class="text-muted px-2">Edytuj książkę</h1>
 <hr class="divider mt-0">
 
 <div class="row m-2">
     <div class="col-12 ">
-        <form method="post" autocomplete="off" asp-controller="Admin" asp-action="AddBook">
+        <form method="post" autocomplete="off" asp-controller="Admin" asp-action="BookEdit">
             <div class="row m-2">
                 <div class="col-12">
                     <div class="forms-inputs">
@@ -38,7 +38,7 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <select asp-for="AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author" list="list-author" autocomplete="off" placeholder="a" name="AuthorId"></select>
+                            <select asp-for="BookAuthors" asp-items="ViewBag.Authors" class="form-control" id="Author" list="list-author" autocomplete="off" placeholder="a" name="AuthorId"></select>
                             <label for="AuthorId">Autor</label>
                         </div>
                         <span class="mx-2 mt-1 errorTextColor"></span>
@@ -52,14 +52,14 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <select asp-for="PublisherId" asp-items="ViewBag.Publishers" class="form-control" id="Publisher" list="list-publisher" autocomplete="off" placeholder="a">
-                                <option value="" disabled selected hidden>Wybierz wydawnictwo</option>
+                            <select asp-for="Publisher" asp-items="ViewBag.Publishers" class="form-control" id="Publisher" list="list-publisher" autocomplete="off" placeholder="a">
+                                <option value="">Publisher</option>
                             </select>
                             <label for="PublisherId">Wydawnictwo</label>
                         </div>
                         <span class="mx-2 mt-1 errorTextColor"></span>
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="row m-2">
                 <div class="col-12">
@@ -175,7 +175,7 @@
                 <div class="col-12">
                     <div class="forms-inputs">
                         <div class="form-floating">
-                            <select asp-for="CategoryId" asp-items="ViewBag.Categories" class="form-control" id="Category" list="list-category" autocomplete="off" placeholder="a" name="CategoryId">
+                            <select asp-for="BookCategories" asp-items="ViewBag.Categories" class="form-control" id="Category" list="list-category" autocomplete="off" placeholder="a" name="CategoryId">
                                 <option value="" disabled selected hidden>Wybierz kategorię</option>
                             </select>
                             <label for="AuthorId">Kategoria</label>
@@ -197,16 +197,16 @@
     var authors = @Html.Raw(Json.Serialize(ViewBag.Authors)); // Pobranie danych z ViewBag.Authors
     $(document).ready(function () {
         var i = 1;
-        fillSelectOptions(); 
+        fillSelectOptions();
         $('#add').click(function () {
             if (i <= 6) {
                 i++;
                 // Nie działa
                 $('#add-author').append('<div class="col-10" id="author' + i + '"> <div class="forms-inputs"> <div class="form-floating"> <select asp-for="author[' + (i - 1) + '].AuthorId" asp-items="ViewBag.Authors" class="form-control" id="Author' + i + '" list="list-author" data-autocomplete="off" placeholder="a" name="author[' + (i - 1) + '].AuthorId" data-authors="@Html.Raw(Json.Serialize(ViewBag.Authors))"> </select> <label for="author[' + (i - 1) + '].AuthorId">Autor</label> </div> <span class="mx-2 mt-1 errorTextColor"></span> </div> </div><div class="col-2"> <td><button type="button" name="add" id="' + i + '" class="btn btn-danger btn-remove2"><i class="fa fa fa-trash"></i></button></td></div>');
-                
+
                 // Aktualizacja wartości nowego pola select
                 var newSelect = $('#Author' + i);
-                fillSelectOptions();  
+                fillSelectOptions();
                 for (var j = 0; j < authors.length; j++) {
                     //select.append($('<option></option>').val(authors[j].value).text(authors[j].text));
                     console.log(authors[j].text);
@@ -238,13 +238,7 @@
         }
     });
     $(document).ready(function () {
-        $('#Author').select2();
-    });
-    $(document).ready(function () {
-        $('#Category').select2();
-    });
-    $(document).ready(function () {
-        $('#Author').on('change', function () {
+        $('#Author').select2().on('change', function () {
             var selectedValue = $(this).val();
             if (selectedValue) {
                 $('#authorLabel').hide();
@@ -252,5 +246,8 @@
                 $('#authorLabel').show();
             }
         });
+    });
+    $(document).ready(function () {
+        $('#Category').select2();
     });
 </script>

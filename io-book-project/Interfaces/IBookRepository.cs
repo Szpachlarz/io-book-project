@@ -10,6 +10,8 @@ namespace io_book_project.Interfaces
 
         Task<Book?> GetByIdAsync(int id);
 
+        Task<Book?> GetByIdAsyncNoTracking(int id);
+
         Task<int> GetCountAsync();
 
         //Task<int> GetCountByCategoryAsync(ClubCategory category);
