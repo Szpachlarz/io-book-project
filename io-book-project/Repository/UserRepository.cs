@@ -25,6 +25,7 @@ namespace io_book_project.Repository
         {
             throw new NotImplementedException();
         }
+
         public async Task<IEnumerable<Book>> GetAllFavourites(string userId)
         {
             return await _context.Books
@@ -34,6 +35,7 @@ namespace io_book_project.Repository
                 .AsNoTracking()
                 .ToListAsync();
         }
+
         public async Task<IEnumerable<Book>> GetAFewFavourites(string userId)
         {
             return await _context.Books
@@ -48,11 +50,13 @@ namespace io_book_project.Repository
         {
             return _context.UserFavourites.Any(i => i.BookId == bookId && i.UserId == userId);
         }
+
         public bool AddFavourite(UserFavourite userFavourite)
         {
             _context.Add(userFavourite);
             return Save();
         }
+
         public bool RemoveFavourite(string userId, int bookId)
         {
             var itemToRemove = _context.UserFavourites.FirstOrDefault(i => i.BookId == bookId && i.UserId == userId);
@@ -78,6 +82,11 @@ namespace io_book_project.Repository
             return await _context.Users.FirstOrDefaultAsync(i => i.UserName == name);
         }
 
+        public async Task<int> GetCountAsync()
+        {
+            return await _context.Users.CountAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();
@@ -100,6 +109,27 @@ namespace io_book_project.Repository
                 UserName = i.User.UserName,
             })
             .ToListAsync();
+        }
+
+        public bool UserBan(string userId)
+        {
+            var userToBlock = _context.Users.FirstOrDefault(i => i.Id == userId);
+            if (userToBlock != null)
+            {
+                userToBlock.Status = 1;
+                _context.Update(userToBlock);
+            }
+            return Save();
+        }
+        public bool UserUnban(string userId)
+        {
+            var userToUnblock = _context.Users.FirstOrDefault(i => i.Id == userId);
+            if (userToUnblock != null)
+            {
+                userToUnblock.Status = 0;
+                _context.Update(userToUnblock);
+            }
+            return Save();
         }
     }
 }

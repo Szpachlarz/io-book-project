@@ -26,23 +26,22 @@
                         <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="Home" asp-action="NewBooks">Nowości</a>
                         </li>
-
                     </ul>
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
                             @if (Context.Session.GetString(Const.LOGGED_USER) != null)
                             {
-                                    <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Index">Witaj @User.Identity.Name</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Index">Witaj, @User.Identity.Name</a>
                             }
                         </li>
                         <li class="nav-item">
-                            @if (Context.Session.GetString(Const.LOGGED_USER) == null)
+                            @if (Context.Session.GetString(Const.LOGGED_USER)==null)
                             {
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Login">Zaloguj</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Login">Zaloguj</a>
                             }
                             else
                             {
-                                    <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Logout">Wyloguj</a>
+                                <a class="nav-link text-white" asp-area="" asp-controller="Authorization" asp-action="Logout">Wyloguj</a>
                             }
                         </li>
                     </ul>
@@ -51,9 +50,27 @@
         </nav>
     </header>
 
-    @RenderBody()
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+                    <a href="/" class="d-flex align-items-center pb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+                        <span class="fs-5 d-none d-sm-inline">Sortuj</span>
+                    </a>
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
+                        @await Component.InvokeAsync("Sidebar")
+                    </ul>                    
+                </div>
+            </div>
+            <div class="col py-3">
+                <main role="main" class="pb-3">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
 
-        <footer class="border-top footer text-muted bg-white text-center">
+    <footer class="border-top footer text-muted bg-white text-center">
         <div class="container">
             &copy; 2023 - io_book_project - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>

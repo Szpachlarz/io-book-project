@@ -7,7 +7,7 @@ namespace io_book_project.Models
 {
     public class User : IdentityUser
     {
-        public Status Status { get; set; }
+        public int Status { get; set; }
 
         //Favourites
         public List<UserFavourite> UserFavourites { get; set; }

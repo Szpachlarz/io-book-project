@@ -29,10 +29,51 @@ namespace io_book_project.Repository
         {
             return await _context.Books.ToListAsync();
         }
+        public async Task<IEnumerable<Book>> GetNew()
+        {
+            return await _context.Books
+                .OrderByDescending(b => b.PublicationYear)
+                .Take(9)
+                .ToListAsync();
+        }
 
         public async Task<Book?> GetByIdAsync(int id)
         {
             return await _context.Books.FirstOrDefaultAsync(i => i.Id == id);
+        }
+
+        public async Task<IEnumerable<Book>> GetByPublisherId(int pubId)
+        {
+            return await _context.Books
+                .Include(i=> i.Publisher)
+                .Where(i => i.PublisherId == pubId)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetByAuthorId(int authorId)
+        {
+            return await _context.Books
+                .Include(i => i.BookAuthors)
+                .ThenInclude(i=>i.Author)
+                .Where(i => i.BookAuthors.Any(ba => ba.AuthorId == authorId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> GetByCategoryId(int catId)
+        {
+            return await _context.Books
+                .Include(i => i.BookCategories)
+                .ThenInclude(i => i.Category)
+                .Where(i => i.BookCategories.Any(ba => ba.CategoryId == catId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> BookSearch(string searchString)
+        {
+            return await _context.Books.Where(s => s.Title!.Contains(searchString)).ToListAsync();
         }
 
         public async Task<Book?> GetByIdAsyncNoTracking(int id)
@@ -54,11 +95,6 @@ namespace io_book_project.Repository
         public async Task<int> GetCountAsync()
         {
             return await _context.Books.CountAsync();
-        }
-
-        public Task<IEnumerable<Book>> GetAllbooks()
-        {
-            throw new NotImplementedException();
         }
     }
 }

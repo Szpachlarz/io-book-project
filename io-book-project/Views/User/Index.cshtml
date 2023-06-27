@@ -1,4 +1,6 @@
 ﻿@using io_book_project.ViewModels
+@using Microsoft.AspNetCore.Http
+@using io_book_project.Utils
 @model UserPageViewModel
 @{
     ViewData["Title"] = "User Page";
@@ -7,6 +9,13 @@
 <div class="text-left ps-5">
     <h1 class="display-4">@User.Identity.Name</h1>
 </div>
+
+@if (Context.Session.GetInt32(Const.USER_STATUS) == 1)
+{
+    <div class="text-left ps-5">
+        Konto zostało zablokowane!
+    </div>
+}
 
 <div class="album py-5">
     <div class="container">

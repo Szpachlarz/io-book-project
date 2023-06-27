@@ -41,7 +41,7 @@
                     <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start" id="menu">
                         <li>
                             <a href="#submenu1" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Książki</span>
+                                <i class="bi bi-book"></i> <span class="ms-1 d-none d-sm-inline">Książki</span>
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu1" data-bs-parent="#menu">
                                 <li class="w-100">
@@ -54,7 +54,7 @@
                         </li>
                         <li>
                             <a href="#submenu2" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Autorzy</span>
+                                <i class="bi bi-file-person"></i> <span class="ms-1 d-none d-sm-inline">Autorzy</span>
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu2" data-bs-parent="#menu">
                                 <li class="w-100">
@@ -67,7 +67,7 @@
                         </li>
                         <li>
                             <a href="#submenu3" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-bootstrap"></i> <span class="ms-1 d-none d-sm-inline">Wydawnictwa</span>
+                                <i class="bi bi-bookshelf"></i> <span class="ms-1 d-none d-sm-inline">Wydawnictwa</span>
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu3" data-bs-parent="#menu">
                                 <li class="w-100">
@@ -80,7 +80,7 @@
                         </li>
                         <li>
                             <a href="#submenu4" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
-                                <i class="fs-4 bi-grid"></i> <span class="ms-1 d-none d-sm-inline">Kategorie</span>
+                                <i class="bi bi-tag"></i> <span class="ms-1 d-none d-sm-inline">Kategorie</span>
                             </a>
                             <ul class="collapse nav flex-column ms-1" id="submenu4" data-bs-parent="#menu">
                                 <li class="w-100">
@@ -88,6 +88,16 @@
                                 </li>
                                 <li>
                                     <a asp-action="AddCategory" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Dodaj kategorię</span></a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#submenu5" data-bs-toggle="collapse" class="nav-link px-0 align-middle">
+                                <i class="bi bi-people-fill"></i> <span class="ms-1 d-none d-sm-inline">Użytkownicy</span>
+                            </a>
+                            <ul class="collapse nav flex-column ms-1" id="submenu5" data-bs-parent="#menu">
+                                <li class="w-100">
+                                    <a asp-action="UserList" asp-controller="Admin" class="nav-link px-0"> <span class="d-none d-sm-inline">Lista użytkowników</span></a>
                                 </li>
                             </ul>
                         </li>

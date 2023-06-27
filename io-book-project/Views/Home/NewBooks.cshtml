@@ -1,19 +1,10 @@
-﻿@using io_book_project.ViewModels
-@model IEnumerable<Book>
+﻿@model IEnumerable<Book>
 @{
-    Layout = "_IndexLayout";
-    ViewData["Title"] = "Home Page";
-
-    Pager pager = new Pager();
-    int pageNo = 0;
-    if (ViewBag.Pager != null)
-    {
-        pager = ViewBag.Pager;
-        pageNo = pager.CurrentPage;
-    }
+    Layout = "_Layout";
+    ViewData["Title"] = "New Books";
 }
-
-<partial name="_pager" model="@pager" />
+<h1 class="text-muted px-2">Nowości wydawnicze</h1>
+<hr class="divider mt-0">
 
 <div class="album py-5 bg-light">
     <div class="container">

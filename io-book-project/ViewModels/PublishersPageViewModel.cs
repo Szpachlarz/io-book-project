@@ -8,7 +8,7 @@ namespace io_book_project.ViewModels
         public string Name { get; set; }
         public string Country { get; set; }
         public string City { get; set; }
-        public List<Book> Books { get; set; }
+        public IEnumerable<Book> Books { get; set; }
 
     }
 }

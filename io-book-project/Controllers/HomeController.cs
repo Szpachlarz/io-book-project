@@ -16,6 +16,7 @@ namespace io_book_project.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly AppDbContext _context;
         private readonly ILogger<HomeController> _logger;
         private readonly IBookRepository _bookRepository;
         private readonly IAuthorRepository _authorRepository;
@@ -23,8 +24,9 @@ namespace io_book_project.Controllers
         private readonly ICategoryRepository _categoryRepository;
         private readonly IReviewRepository _reviewRepository;
         private readonly IUserRepository _userRepository;
-        public HomeController(ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository, IUserRepository userRepository)
+        public HomeController(AppDbContext context, ILogger<HomeController> logger, AppDbContext dbContext, IBookRepository bookRepository, IAuthorRepository authorRepository, IPublisherRepository publisherRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository, IUserRepository userRepository)
         {
+            _context = context;
             _logger = logger;
             _bookRepository = bookRepository;
             _authorRepository = authorRepository;
@@ -34,13 +36,28 @@ namespace io_book_project.Controllers
             _userRepository = userRepository;
         }
         [HttpGet]
-        public async Task<IActionResult> Index(int pg=1)
+        public async Task<IActionResult> Index (string id, int pg=1)
         {
             //ViewData["NameSortParm"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             //ViewData["DateSortParm"] = sortOrder == "Date" ? "date_desc" : "Date";
             //ViewData["CurrentFilter"] = searchString;
 
-            IEnumerable<Book> books = await _bookRepository.GetAll();
+            //IEnumerable<Book> books = await _bookRepository.GetAll();
+
+            var books = from m in _context.Books
+                         select m;
+
+            //if (!string.IsNullOrEmpty(searchString))
+            //{
+            //    books = await _bookRepository.BookSearch(searchString);
+            //}
+
+            if (!string.IsNullOrEmpty(id))
+            {
+                //var catId = await _categoryRepository.GetIdByName(id);
+                //books = await _bookRepository.GetByCategoryId(catId);
+                books = books.Include(i => i.BookCategories).ThenInclude(i => i.Category).Where(i => i.BookCategories.Any(ba => ba.Category.Name == id));
+            }
 
             //var books = from s in await _bookRepository.GetAll()
             //            select s;
@@ -50,22 +67,25 @@ namespace io_book_project.Controllers
             //    books = books.Where(s => s.Title.Contains(searchString));
             //}
 
-                const int pageSize = 3;
+            var books2 = await books.ToListAsync();
+
+            const int pageSize = 3;
             if(pg < 1)
                 pg = 1;
-            int recsCount = books.Count();
+            int recsCount = books2.Count();
             var pager = new Pager(recsCount, pg, pageSize);
             int recSkip = (pg - 1) * pageSize;
-            var data = books.Skip(recSkip).Take(pager.PageSize).ToArray();
+            var data = books2.Skip(recSkip).Take(pager.PageSize).ToArray();
             this.ViewBag.Pager = pager;
 
-            //return View(books);
             return View(data);
         }
 
-        public IActionResult Privacy()
+        [HttpGet]
+        public async Task<IActionResult> NewBooks()
         {
-            return View();
+            var newbooks = await _bookRepository.GetNew();
+            return View(newbooks);
         }
 
         [HttpGet]
@@ -112,9 +132,9 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> AuthorsPage(int id)
         {
-
             var author = await _authorRepository.GetByIdAsync(id);
             if (author == null) return View("Error");
+            var books = await _bookRepository.GetByAuthorId(id);
             
             var authorVM = new AuthorsPageViewModel
             {
@@ -123,7 +143,7 @@ namespace io_book_project.Controllers
                 Nationality = author.Nationality,
                 DateOfBirth = author.DateOfBirth,
                 DateOfDeath = author.DateOfDeath,
-                
+                Books = books,
             };
             return View(authorVM);
         }
@@ -132,12 +152,14 @@ namespace io_book_project.Controllers
         {
             var publisher = await _publisherRepository.GetByIdAsync(id);
             if (publisher == null) return View("Error");
+            var books = await _bookRepository.GetByPublisherId(id);
 
             var publisherVM = new PublishersPageViewModel
             {
                 Name = publisher.Name,
-                Country=publisher.Country,
-                City=publisher.City,   
+                Country = publisher.Country,
+                City = publisher.City,
+                Books = books,
 
             };
             return View(publisherVM);
