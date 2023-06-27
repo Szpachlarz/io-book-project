@@ -1,0 +1,29 @@
+﻿@model IEnumerable<Book>
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "New Books";
+}
+<h1 class="text-muted px-2">Nowości wydawnicze</h1>
+<hr class="divider mt-0">
+
+<div class="album py-5 bg-light">
+    <div class="container">
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 box-shadow">
+                        <a asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@item.Id">
+                            <img height="500px" class="card-img-top" src="@item.CoverImagePath" />
+                        </a>
+                        <div class="card-body">
+                            <a asp-area="" asp-controller="Home" asp-action="BookPage" asp-route-id="@item.Id">
+                                <p class="card-text">@item.Title</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

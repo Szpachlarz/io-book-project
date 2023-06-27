@@ -80,10 +80,12 @@ namespace io_book_project.Controllers
 
             return View(data);
         }
-        
-        public IActionResult Privacy()
+
+        [HttpGet]
+        public async Task<IActionResult> NewBooks()
         {
-            return View();
+            var newbooks = await _bookRepository.GetNew();
+            return View(newbooks);
         }
 
         [HttpGet]

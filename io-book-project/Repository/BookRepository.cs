@@ -29,6 +29,13 @@ namespace io_book_project.Repository
         {
             return await _context.Books.ToListAsync();
         }
+        public async Task<IEnumerable<Book>> GetNew()
+        {
+            return await _context.Books
+                .OrderByDescending(b => b.PublicationYear)
+                .Take(9)
+                .ToListAsync();
+        }
 
         public async Task<Book?> GetByIdAsync(int id)
         {
