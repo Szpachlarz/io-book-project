@@ -13,6 +13,7 @@ namespace io_book_project.Interfaces
         Task<int> GetCountAsync();
 
         Task<IEnumerable<Category>> GetCategoryNames(int id);
+        Task<int> GetIdByName(string name);
 
         bool Add(Category category);
 

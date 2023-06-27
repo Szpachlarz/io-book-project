@@ -54,6 +54,21 @@ namespace io_book_project.Repository
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Book>> GetByCategoryId(int catId)
+        {
+            return await _context.Books
+                .Include(i => i.BookCategories)
+                .ThenInclude(i => i.Category)
+                .Where(i => i.BookCategories.Any(ba => ba.CategoryId == catId))
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<IEnumerable<Book>> BookSearch(string searchString)
+        {
+            return await _context.Books.Where(s => s.Title!.Contains(searchString)).ToListAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

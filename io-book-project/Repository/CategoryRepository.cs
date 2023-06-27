@@ -54,6 +54,15 @@ namespace io_book_project.Repository
                 .ToListAsync();
         }
 
+        public async Task<int> GetIdByName(string name)
+        {
+            var category = await _context.Categories
+                .Where(i => i.Name == name)
+                .Select(i=>i.Id)
+                .FirstOrDefaultAsync();
+            return category;
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

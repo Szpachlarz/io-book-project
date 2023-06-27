@@ -1,5 +1,7 @@
-﻿@model IEnumerable<Book>
+﻿@using io_book_project.ViewModels
+@model IEnumerable<Book>
 @{
+    Layout = "_IndexLayout";
     ViewData["Title"] = "Home Page";
 
     Pager pager = new Pager();

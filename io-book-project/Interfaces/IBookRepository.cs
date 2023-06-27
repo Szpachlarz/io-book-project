@@ -10,6 +10,8 @@ namespace io_book_project.Interfaces
         //Task<int> GetCountByCategoryAsync(ClubCategory category);
         Task<IEnumerable<Book>> GetByPublisherId(int pubId);
         Task<IEnumerable<Book>> GetByAuthorId(int authorId);
+        Task<IEnumerable<Book>> GetByCategoryId(int catId);
+        Task<IEnumerable<Book>> BookSearch(string searchString);
         bool Add(Book book);
         bool Update(Book book);
         bool Delete(Book book);
