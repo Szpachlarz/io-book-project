@@ -90,8 +90,7 @@
 
                 <p>Rok wydania: @Model.PublicationYear.ToString("yyyy")</p>
 
-                <p>Rok pierwszego wydania: @Model.FirstPublicationYear.ToString("yyyy")</p>
-                
+                <p>Rok pierwszego wydania: @Model.FirstPublicationYear.ToString("yyyy")</p>                
                
                 <p>ISBN: @Model.ISBN</p>
 
@@ -112,9 +111,9 @@
     <div class="col md-4">
         @if(Model.Reviews.Count() > 0)
         {
-            <p>Recenzje</p>
+            <p><h1 class="text-muted px-2">Recenzje</h1></p>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-2">
                     <table cellpadding="20">
                         <tr>
                             <th>Nazwa użytkownika</th>
@@ -140,6 +139,31 @@
                         }
                     </table>
                 </div>
+                @if (Context.Session.GetString(Const.USER_ROLE) == "admin")
+                {
+                    <div class="col-md-2">
+                        <table cellpadding="20">
+                            <tr>
+                                <th>Usuń</th>
+                            </tr>
+                            @foreach (var review in Model.Reviews)
+                            {
+                                <tr>
+                                    <td>
+                                        <form asp-controller="Admin" asp-action="ReviewDelete" asp-route-id="@review.Id" style="text-align: center;">
+                                            <div style="text-align: center;">
+                                                <button type="submit" class="btn btn-danger" onclick="return confirm('Czy na pewno chcesz usunąć recenzję?')">
+                                                    <i class="bi-trash"></i>
+                                                </button>
+                                            </div>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                }
+                
             </div>
         }
         else{

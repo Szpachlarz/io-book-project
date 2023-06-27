@@ -24,7 +24,8 @@ namespace io_book_project.Controllers
         private readonly IAuthorRepository _authorRepository;
         private readonly ICategoryRepository _categoryRepository;
         private readonly IUserRepository _userRepository;
-        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository, IUserRepository userRepository)
+        private readonly IReviewRepository _reviewRepository;
+        public AdminController(AppDbContext context, IBookRepository bookRepository, IPublisherRepository publisherRepository, IAuthorRepository authorRepository, ICategoryRepository categoryRepository, IUserRepository userRepository, IReviewRepository reviewRepository)
         {
             _context = context;
             _bookRepository = bookRepository;
@@ -32,6 +33,7 @@ namespace io_book_project.Controllers
             _authorRepository = authorRepository;
             _categoryRepository = categoryRepository;
             _userRepository = userRepository;
+            _reviewRepository = reviewRepository;
         }
         [HttpGet]
         public async Task <IActionResult> Index()
@@ -559,6 +561,14 @@ namespace io_book_project.Controllers
         {
             _userRepository.UserUnban(id);
             return RedirectToAction("UserList", "Admin");
+        }
+
+        public async Task<IActionResult> ReviewDelete(int id)
+        {
+            var review = await _reviewRepository.GetByIdAsync(id);
+            _reviewRepository.Delete(review);
+            _reviewRepository.Save();
+            return RedirectToAction($"BookPage", "Home", new { id });
         }
     }
 }
