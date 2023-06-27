@@ -7,6 +7,9 @@ namespace io_book_project.Interfaces
         Task<IEnumerable<Book>> GetAll();
         Task<IEnumerable<Book>> GetNew();
         Task<Book?> GetByIdAsync(int id);
+
+        Task<Book?> GetByIdAsyncNoTracking(int id);
+
         Task<int> GetCountAsync();
         //Task<int> GetCountByCategoryAsync(ClubCategory category);
         Task<IEnumerable<Book>> GetByPublisherId(int pubId);

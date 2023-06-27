@@ -76,6 +76,11 @@ namespace io_book_project.Repository
             return await _context.Books.Where(s => s.Title!.Contains(searchString)).ToListAsync();
         }
 
+        public async Task<Book?> GetByIdAsyncNoTracking(int id)
+        {
+            return await _context.Books.AsNoTracking().FirstOrDefaultAsync();
+        }
+
         public bool Save()
         {
             var saved = _context.SaveChanges();

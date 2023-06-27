@@ -29,46 +29,6 @@
                     <span class="input-group-text"><i class="bi bi-search"></i></span>
                 </div>
             </div>
-            <div class="col">
-                <nav aria-label="Site Pagination">
-                    <ul class="pagination justify-content-end">
-                        <li class="page-item me-2">
-                            <select class="form-select justify-content-end" id="usersPerPagePag" onchange="usersPerPageChange()">
-                                <option value="10">10</option>
-                                <option value="25" selected="selected">25</option>
-                                <option value="100">100</option>
-                                <option value="500">500</option>
-                            </select>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link" onclick="goToFirstPage()">
-                                <i class="bi bi-caret-left-fill"></i>
-                            </button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link" onclick="prevPage()">
-                                <i class="bi bi-arrow-left"></i>
-                            </button>
-                        </li>
-                        <li class="page-item page-num1" style="width: 75px">
-                            <input type="text" class="page-link" name="pagination123" id="pagination123" onchange="changePageInput(this)" style="width: 75px" value="1">
-                        </li>
-                        <li class="page-item page-num2" style="width: 75px">
-                            <label class="page-link" id="pagination321" style="width: 75px">z 1</label>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link" onclick="nextPage()">
-                                <i class="bi bi-arrow-right"></i>
-                            </button>
-                        </li>
-                        <li class="page-item">
-                            <button class="page-link" onclick="goToLastPage()">
-                                <i class="bi bi-caret-right-fill"></i>
-                            </button>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
         </div>
     </div>
 </div>

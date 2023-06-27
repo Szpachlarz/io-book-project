@@ -64,7 +64,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public IActionResult AddAuthor()
         {
-            // może kiedyś coś tu będzie
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -93,6 +96,10 @@ namespace io_book_project.Controllers
 
         public async Task<IActionResult> AuthorList(int pg=1)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var authors = await _authorRepository.GetAll();
@@ -117,6 +124,10 @@ namespace io_book_project.Controllers
         }
         public async Task<IActionResult> AuthorDetails(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var author = await _authorRepository.GetByIdAsync(id);
@@ -131,6 +142,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> AuthorEdit(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -181,14 +196,33 @@ namespace io_book_project.Controllers
         }
         public async Task<IActionResult> AuthorDelete(int id)
         {
-            var author = await _authorRepository.GetByIdAsync(id);
-            if (author == null) return View("Error");
-            return View(author);
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                var author = await _authorRepository.GetByIdAsync(id);
+                _authorRepository.Delete(author);
+                _authorRepository.Save();
+                return RedirectToAction("AuthorList", "Admin");
+
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
         }
 
         [HttpGet]
         public async Task<IActionResult> AddBook()
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             var publishers = await _publisherRepository.GetAll();
             ViewData["Publishers"] = new SelectList((System.Collections.IEnumerable)publishers, "Id", "Name");
 
@@ -255,6 +289,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> BookList(int pg = 1)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var books = await _bookRepository.GetAll();
@@ -290,6 +328,10 @@ namespace io_book_project.Controllers
         }
         public async Task<IActionResult> BookDetails(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -300,26 +342,97 @@ namespace io_book_project.Controllers
             return View(book);
             
         }
+        [HttpGet]
         public async Task<IActionResult> BookEdit(int id)
         {
-            try
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
             {
-                var book = await _bookRepository.GetByIdAsync(id);
-                return View(book);
+                return RedirectToAction("Index", "Home");
             }
-            catch (Exception)
+            if (id == null)
             {
-                throw;
+                return NotFound();
             }
-            return View();
+
+            var publishers = await _publisherRepository.GetAll();
+            ViewData["Publishers"] = new SelectList((System.Collections.IEnumerable)publishers, "Id", "Name");
+
+            var authors = await _authorRepository.GetAll();
+            var authorList = authors.Select(a => new { Id = a.Id, FullName = $"{a.Names} {a.Surname}" }).ToList();
+            ViewData["Authors"] = new MultiSelectList((System.Collections.IEnumerable)authorList, "Id", "FullName");
+
+            var categories = await _categoryRepository.GetAll();
+            ViewData["Categories"] = new SelectList((System.Collections.IEnumerable)categories, "Id", "Name");
+
+            var book = await _bookRepository.GetByIdAsync(id);
+            if (book == null) return View("Error");
+
+            return View(book);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> BookEdit(int id, AddBookViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var book = new Book
+                {
+                    Title = model.Title,
+                    OriginalTitle = model.OriginalTitle,
+                    ISBN = model.ISBN,
+                    PublicationYear = model.PublicationYear,
+                    FirstPublicationYear = model.FirstPublicationYear,
+                    Language = model.Language,
+                    OriginalLanguage = model.OriginalLanguage,
+                    Translation = model.Translation,
+                    PageCount = model.PageCount,
+                    Series = model.Series,
+                    Description = model.Description,
+                    CoverImagePath = model.CoverImagePath,
+                    PublisherId = model.PublisherId,
+                    BookAuthors = new List<BookAuthor>(),
+                    BookCategories = new List<BookCategory>()
+                };
+
+                foreach (var authorId in model.AuthorId)
+                {
+                    var bookAuthor = new BookAuthor
+                    {
+                        BookId = book.Id,
+                        AuthorId = authorId
+                    };
+                    book.BookAuthors.Add(bookAuthor);
+                }
+                foreach (var categoryId in model.CategoryId)
+                {
+                    var bookCategory = new BookCategory
+                    {
+                        BookId = book.Id,
+                        CategoryId = categoryId
+                    };
+                    book.BookCategories.Add(bookCategory);
+                }
+                _bookRepository.Update(book);
+
+                return RedirectToAction("BookList");
+            }
+            return View("BookEdit", model);
         }
 
         public async Task<IActionResult> BookDelete(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var book = await _bookRepository.GetByIdAsync(id);
-                return View(book);
+                _bookRepository.Delete(book);
+                _bookRepository.Save();
+                return RedirectToAction("BookList", "Admin");
+
+                
             }
             catch (Exception)
             {
@@ -331,7 +444,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public IActionResult AddCategory()
         {
-            // może kiedyś coś tu będzie
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
 
         }
@@ -358,6 +474,10 @@ namespace io_book_project.Controllers
 
         public async Task<IActionResult> CategoryList(int pg = 1)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var categories = await _categoryRepository.GetAll();
@@ -382,6 +502,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> CategoryEdit(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -423,9 +547,33 @@ namespace io_book_project.Controllers
             return RedirectToAction("CategoryList");
         }
 
+        public async Task<IActionResult> CategoryDelete(int id)
+        {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            try
+            {
+                var category = await _categoryRepository.GetByIdAsync(id);
+                _categoryRepository.Delete(category);
+                _categoryRepository.Save();
+                return RedirectToAction("CategoryList", "Admin");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
         [HttpGet]
         public IActionResult AddPublishingHouse()
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
 
@@ -453,6 +601,10 @@ namespace io_book_project.Controllers
 
         public async Task<IActionResult> PublishingHouseList(int pg = 1)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var publishers = await _publisherRepository.GetAll();
@@ -476,6 +628,10 @@ namespace io_book_project.Controllers
         [HttpGet]
         public async Task<IActionResult> PublishingHouseEdit(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (id == null)
             {
                 return NotFound();
@@ -521,6 +677,10 @@ namespace io_book_project.Controllers
         }
         public async Task<IActionResult> PublishingHouseDelete(int id)
         {
+            if (HttpContext.Session.GetString(Const.USER_ROLE) != "admin")
+            {
+                return RedirectToAction("Index", "Home");
+            }
             try
             {
                 var publisher = await _publisherRepository.GetByIdAsync(id);
